@@ -1,0 +1,30 @@
+{
+  "$type": "APICamaraDeComercio.Services.Entities.FieldMap, APICamaraDeComercio",
+  "Table": "SAR_FCRMVH",
+  "Fields":{ 
+    "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio]], mscorlib",
+    "$values":[
+      {
+        "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+        "Field": "SAR_FCRMVH_IDENTI",
+        "PropertyName": "identificador"
+      },
+      {
+        "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+        "Field": "SAR_FCRMVH_NROCTA",
+        "PropertyName": "numero_de_documento"
+      },
+      {
+        "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+        "Field": "SAR_FCRMVH_FCHMOV",
+        "PropertyName": "fecha_de_movimento"
+      },
+      {
+        "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+        "Field": "USR_FCRMVH_TEXTOS",
+        "PropertyName": "observaciones"
+      }
+    ]
+
+  }
+}
