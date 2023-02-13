@@ -1,0 +1,296 @@
+{
+  "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FieldMap, APICamaraDeComercio]], mscorlib",
+  "$values": [
+    {
+      "Table": "SAR_FCRMVH",
+      "ParentTable": null,
+      "ParentProperty": null,
+      "Fields": {
+        "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio]], mscorlib",
+        "$values": [
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_IDENTI",
+            "PropertyName": "identificador",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_STATUS",
+            "PropertyName": null,
+            "FixedValue": "N",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_NROCTA",
+            "PropertyName": null,
+            "FixedValue": null,
+            "Function": {
+              "$type": "APICamaraDeComercio.Services.Entities.FieldFunction, APICamaraDeComercio",
+              "Name": "Alm_Fnc_Ins_SarFcrmvh_DefinoNumeroDeCliente",
+              "Parameters": {
+                "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FunctionParameters, APICamaraDeComercio]], mscorlib",
+                "$values": [
+                  {
+                    "Name": "NumeroDocumento",
+                    "PropertyName": "numero_de_documento"
+                  }
+                ]
+
+              }
+            }
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_FCHMOV",
+            "PropertyName": "fecha_de_movimento",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_FCRMVH_TEXTOS",
+            "PropertyName": "observaciones",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_CIRCOM",
+            "PropertyName": null,
+            "FixedValue": null,
+            "Function": {
+              "$type": "APICamaraDeComercio.Services.Entities.FieldFunction, APICamaraDeComercio",
+              "Name": "Alm_Fnc_Ins_SarFcrmvh_DefinoCircuito",
+              "Parameters": {
+                "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FunctionParameters, APICamaraDeComercio]], mscorlib",
+                "$values": [
+                  {
+                    "Name": "NumeroDocumento",
+                    "PropertyName": "numero_de_documento"
+                  }
+                ]
+
+              }
+            }
+
+          },
+
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_SUCURS",
+            "PropertyName": null,
+            "FixedValue": null,
+            "Function": {
+              "$type": "APICamaraDeComercio.Services.Entities.FieldFunction, APICamaraDeComercio",
+              "Name": "Alm_Fnc_Ins_SarFcrmvh_DefinoSucursal",
+              "Parameters": {
+                "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FunctionParameters, APICamaraDeComercio]], mscorlib",
+                "$values": [
+                  {
+                    "Name": "NumeroDocumento",
+                    "PropertyName": "numero_de_documento"
+                  }
+                ]
+
+              }
+            }
+
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_CIRAPL",
+            "PropertyName": null,
+            "FixedValue": null,
+            "Function": {
+              "$type": "APICamaraDeComercio.Services.Entities.FieldFunction, APICamaraDeComercio",
+              "Name": "Alm_Fnc_Ins_SarFcrmvh_DefinoCircuito",
+              "Parameters": {
+                "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FunctionParameters, APICamaraDeComercio]], mscorlib",
+                "$values": [
+                  {
+                    "Name": "NumeroDocumento",
+                    "PropertyName": "numero_de_documento"
+                  }
+                ]
+
+              }
+            }
+
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_CODLIS",
+            "PropertyName": null,
+            "FixedValue": null,
+            "Function": {
+              "$type": "APICamaraDeComercio.Services.Entities.FieldFunction, APICamaraDeComercio",
+              "Name": "Alm_Fnc_Ins_SarFcrmvh_DefinoListaDePrecios",
+              "Parameters": {
+                "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FunctionParameters, APICamaraDeComercio]], mscorlib",
+                "$values": [
+                  {
+                    "Name": "NumeroDocumento",
+                    "PropertyName": "numero_de_documento"
+                  }
+                ]
+
+              }
+            }
+
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVH_CODEMP",
+            "PropertyName": null,
+            "FixedValue": "CAC01",
+            "Function": null
+          },
+
+
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_FCRMVH_DIREML",
+            "PropertyName": "email",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_FECALT",
+            "PropertyName": null,
+            "FixedValue": "GETDATE()",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_FECMOD",
+            "PropertyName": null,
+            "FixedValue": "GETDATE()",
+            "Function": null
+
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_ULTOPR",
+            "PropertyName": null,
+            "FixedValue": "A",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_USERID",
+            "PropertyName": null,
+            "FixedValue": "API",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_OALIAS",
+            "PropertyName": null,
+            "FixedValue": "SAR_FCRMVH",
+            "Function": null
+          }
+        ]
+      }
+    },
+    {
+      "Table": "SAR_FCRMVI",
+      "ParentTable": "SAR_FCRMVH",
+      "ParentProperty": "items_a_facturar",
+      "Fields": {
+        "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio]], mscorlib",
+        "$values": [
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVI_IDENTI",
+            "PropertyName": "identificador",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVI_NROITM",
+            "PropertyName": "item",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVI_TIPPRO",
+            "PropertyName": "tipo_producto",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVI_ARTCOD",
+            "PropertyName": "producto",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVI_CANTID",
+            "PropertyName": "cantidad",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVI_NROCER",
+            "PropertyName": "numero_de_certificado",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FCRMVI_TEXTOS",
+            "PropertyName": "textos",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_FECALT",
+            "PropertyName": null,
+            "FixedValue": "GETDATE()",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_FECMOD",
+            "PropertyName": null,
+            "FixedValue": "GETDATE()",
+            "Function": null
+
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_ULTOPR",
+            "PropertyName": null,
+            "FixedValue": "A",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_USERID",
+            "PropertyName": null,
+            "FixedValue": "API",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_FC_OALIAS",
+            "PropertyName": null,
+            "FixedValue": "SAR_FCRMVI",
+            "Function": null
+          }
+
+        ]
+      }
+    }
+  ]
+}

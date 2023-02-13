@@ -5,7 +5,7 @@ namespace APICamaraDeComercio.Services
 {
     public class FieldMapper
     {
-        private static FieldMap? fieldMap { get; set; } = null;
+        public List<FieldMap> fieldMap { get; set; }
         private static string fileContent = String.Empty;
 
         public bool LoadMappingFile(string path)
@@ -17,7 +17,7 @@ namespace APICamaraDeComercio.Services
                 {
                     TypeNameHandling = TypeNameHandling.All
                 };
-                fieldMap = JsonConvert.DeserializeObject<FieldMap>(fileContent, settings);
+                fieldMap = JsonConvert.DeserializeObject<List<FieldMap>>(fileContent, settings);
                 return true;
             }
             catch (Exception ex)
