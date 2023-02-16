@@ -2,7 +2,7 @@
 {
     public class ComprobanteGenerado
     {
-        public string codigocomprobante { get; set; }
-        public int numerocomprobante{ get; set; }
+        public string? codigocomprobante { get; set; }
+        public Int64? numerocomprobante{ get; set; }
     }
 }

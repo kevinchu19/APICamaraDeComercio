@@ -212,19 +212,19 @@ namespace APICamaraDeComercio.Repositories
                                     switch ((string)reader[$"{table}_STATUS"])
                                     {
                                         case "E":
-                                            return new BaseResponse(new ResponseDTO (identificador, "200", "Procesada con error",(string)reader[$"{table}_ERRMSG"],null));
+                                            return new BaseResponse(new ResponseDTO (identificador, (string)reader[$"{table}_STATUS"], "Procesada con error",(string)reader[$"{table}_ERRMSG"],null));
 
                                         case "S":
-                                            return new BaseResponse(new ResponseDTO(identificador, 
-                                                                                    "200", 
+                                            return new BaseResponse(new ResponseDTO(identificador,
+                                                                                    (string)reader[$"{table}_STATUS"], 
                                                                                     "Procesada Exitosamente", 
                                                                                     "", 
-                                                                                    new ComprobanteGenerado { codigocomprobante= (string)reader[$"{table}_CODFOR"],
-                                                                                                              numerocomprobante= (int)reader[$"{table}_NROFOR"]
+                                                                                    new ComprobanteGenerado { codigocomprobante= (string)(reader[$"{table}_CODFOR"] is System.DBNull?reader[$"{table}_CODFVT"]: reader[$"{table}_CODFOR"]),
+                                                                                                              numerocomprobante= Convert.ToInt64(reader[$"{table}_NROFOR"] is System.DBNull?reader[$"{table}_NROFVT"]: reader[$"{table}_NROFOR"])
                                                                                     }));
                                         case "N":
                                             return new BaseResponse(new ResponseDTO(identificador,
-                                                                                   "200",
+                                                                                   (string)reader[$"{table}_STATUS"],
                                                                                     "Pendiente de procesar",
                                                                                     "",
                                                                                     null));
@@ -243,7 +243,7 @@ namespace APICamaraDeComercio.Repositories
                     }
                     catch (SqlException ex)
                     {
-                        return new BaseResponse(new ResponseDTO(identificador, "404", "Identificador Inexistente", $"Error de conexion con la base de datos", null));
+                        return new BaseResponse(new ResponseDTO(identificador, "500", "Error de acceso", $"Error de conexion con la base de datos", null));
                     }
 
                     return new BaseResponse(new ResponseDTO(identificador, "200", "", "", null));
