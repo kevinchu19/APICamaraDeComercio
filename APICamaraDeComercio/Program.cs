@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 //Repositorys
 builder.Services.AddScoped<FacturacionRepository>();
+builder.Services.AddScoped<ComprobanteRepository>();
 
 //Filtro de Excepcion
 builder.Services.AddMvc(Options =>

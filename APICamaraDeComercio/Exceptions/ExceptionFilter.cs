@@ -21,7 +21,7 @@ namespace APICamaraDeComercio.Exceptions
             }
 
 
-            BaseResponse response = new BaseResponse(new ResponseDTO("",
+            ComprobanteResponse response = new ComprobanteResponse(new ComprobanteDTO("",
                 "500",
                 "Error interno", 
                 errorMessage, 

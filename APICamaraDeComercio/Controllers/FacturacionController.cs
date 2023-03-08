@@ -26,31 +26,31 @@ namespace APICamaraDeComercio.Controllers
         public FacturacionRepository Repository { get; }
 
         [HttpPost]
-        public async Task<ActionResult<BaseResponse>> PostFacturacion([FromBody] FacturacionDTO comprobante)
+        public async Task<ActionResult<ComprobanteResponse>> PostFacturacion([FromBody] FacturacionDTO comprobante)
         {
 
             FieldMapper mapping = new FieldMapper();
             if (!mapping.LoadMappingFile(AppDomain.CurrentDomain.BaseDirectory + @"\Services\FieldMapFiles\Facturacion.json"))
-            { return BadRequest(new ResponseDTO((string?)comprobante.GetType()
+            { return BadRequest(new ComprobanteDTO((string?)comprobante.GetType()
                                                            .GetProperty("identificador")
                                                            .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoing", null)); };
 
             string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap, comprobante, comprobante.identificador);
             if (errorMessage!= "")
             {
-                return BadRequest(new BaseResponse(new ResponseDTO(comprobante.identificador, "400", "Bad Request",errorMessage, null)));
+                return BadRequest(new ComprobanteResponse(new ComprobanteDTO(comprobante.identificador, "400", "Bad Request",errorMessage, null)));
             };
             
             
             
-            return Ok(new BaseResponse(new ResponseDTO(comprobante.identificador, "200", "OK", errorMessage, null)));
+            return Ok(new ComprobanteResponse(new ComprobanteDTO(comprobante.identificador, "200", "OK", errorMessage, null)));
         }
 
         [HttpGet]
         [Route("{identificador}")]
-        public async Task<ActionResult<BaseResponse>> GetFacturacion(string identificador)
+        public async Task<ActionResult<ComprobanteResponse>> GetFacturacion(string identificador)
         {
-            BaseResponse respuesta = await Repository.GetTransaccion(identificador,"SAR_FCRMVH");
+            ComprobanteResponse respuesta = await Repository.GetTransaccion(identificador,"SAR_FCRMVH");
 
             switch (respuesta.response.status)
             {

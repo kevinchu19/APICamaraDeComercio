@@ -1,12 +1,14 @@
 ﻿namespace APICamaraDeComercio.Models.Response
 {
-    public class BaseResponse
+    public class BaseResponse<T>
     {
-        public ResponseDTO response { get; set; }
+        public T response { get; set; }
 
-        public BaseResponse(ResponseDTO response)
+        public BaseResponse(T response)
         {
             this.response = response;
         }
+
+
     }
 }
