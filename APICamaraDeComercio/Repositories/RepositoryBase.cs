@@ -1,4 +1,5 @@
 ﻿using APICamaraDeComercio.Models.Response;
+using APICamaraDeComercio.Models.Response.Pdf;
 using APICamaraDeComercio.Services.Entities;
 using Microsoft.Data.SqlClient;
 using System.Configuration;
@@ -252,5 +253,81 @@ namespace APICamaraDeComercio.Repositories
 
             }
         }
+
+        public async Task<TResult?> ExecuteStoredProcedure<TResult>(string sqlCommand, Dictionary<string, object> parameters)
+        {
+            TResult? result = default;
+
+            using (SqlConnection sql = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
+            {
+                using (SqlCommand cmd = new SqlCommand(sqlCommand, sql))
+                {
+
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    foreach (var item in parameters)
+                    {
+                        cmd.Parameters.Add(new SqlParameter(item.Key, item.Value));
+                    }
+
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            result = MapToValue<TResult>(reader);
+                        }
+                    }
+                }
+            }
+
+            return (TResult?)result;
+
+        }
+
+        public TResponse MapToValue<TResponse>(SqlDataReader reader)
+        {
+            var respuesta = (TResponse)Activator.CreateInstance(typeof(TResponse), null);
+            Type typeResponse = typeof(TResponse);
+            System.Reflection.PropertyInfo[] listaPropiedades = typeResponse.GetProperties();
+
+            for (int i = 0; i < listaPropiedades.Count(); i++)
+            {
+                if (reader.GetColumnSchema().Any(c => c.ColumnName == listaPropiedades[i].Name))
+                {
+                    if (reader[listaPropiedades[i].Name] != DBNull.Value)
+                    {
+
+                        if (listaPropiedades[i].PropertyType == typeof(string))
+                        {
+                            listaPropiedades[i].SetValue(respuesta, reader[listaPropiedades[i].Name].ToString());
+                        }
+                        else
+                        {
+                            if (listaPropiedades[i].PropertyType == typeof(bool))
+                            {
+                                listaPropiedades[i].SetValue(respuesta, reader[listaPropiedades[i].Name].ToString() == "S" ? true : false);
+                            }
+                            else
+                            {
+                                if (listaPropiedades[i].PropertyType == typeof(decimal))
+                                {
+                                    listaPropiedades[i].SetValue(respuesta, (decimal)reader[listaPropiedades[i].Name]);
+                                }
+                                else
+                                {
+                                    listaPropiedades[i].SetValue(respuesta, reader[listaPropiedades[i].Name]);
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+            }
+
+            return respuesta;
+        }
+
     }
 }

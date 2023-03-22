@@ -7,15 +7,19 @@ namespace APICamaraDeComercio.Models.Response.Pdf
 {
     public class PdfDTO
     {
-        public string? pdf { get; private set; }
-        public string mensaje { get; private set; }
+        public string? mensaje { get; set; }
+        public string? fecha { get; set; }
+        public string? numeroAfip { get; set; }
+        public decimal? importeTotal { get; set; }
+        public string? pdf { get;  set; }
+       
 
-        public PdfDTO(string? _pdf)
+        public PdfDTO()
         {
-            pdf = _pdf;
+
         }
 
-        public PdfDTO(string? _pdf, string _mensaje)
+        public PdfDTO(string? _mensaje)
         {
             mensaje = _mensaje;
         }

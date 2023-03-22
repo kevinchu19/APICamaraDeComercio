@@ -38,26 +38,31 @@ namespace APICamaraDeComercio.Controllers
 
             if (!isNumber)
             {
-                return BadRequest(new PdfResponse(new PdfDTO(null, "El parámetro numeroComprobante debe ser numérico")));
+                return BadRequest(new PdfResponse(new PdfDTO("El parámetro numeroComprobante debe ser numérico")));
             }
 
-            string path = await Repository.GetPdfPath(codigoComprobante, numeroFormulario );
+            PdfDTO? result = await Repository.GetPdfPath(codigoComprobante, numeroFormulario );
 
-            if (path =="" )
+            if (result == null)
             {
-                return NotFound(new PdfResponse(new PdfDTO(null, "El comprobante solicitado no tiene pdf generado")));
+                return NotFound(new PdfResponse(new PdfDTO("El comprobante solicitado no existe")));
+            }
+
+            if (result.pdf =="" )
+            {
+                return NotFound(new PdfResponse(new PdfDTO( "El comprobante solicitado no tiene pdf generado")));
             }
 
             try
             {
-                byte[] bytes = await System.IO.File.ReadAllBytesAsync(path);
-                string file = Convert.ToBase64String(bytes);
-                return Ok(new PdfResponse(new PdfDTO(file)));
+                byte[] bytes = await System.IO.File.ReadAllBytesAsync(result.pdf);
+                result.pdf = Convert.ToBase64String(bytes);
+                return Ok(new PdfResponse(result));
             }
             catch (Exception ex)
             {
 
-                return NotFound(new PdfResponse(new PdfDTO(null, "No se encontro el archivo pdf asociado al comprobante solicitado")));
+                return NotFound(new PdfResponse(new PdfDTO("No se encontro el archivo pdf asociado al comprobante solicitado")));
             }
         }
 
