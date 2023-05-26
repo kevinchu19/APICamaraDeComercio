@@ -1,0 +1,332 @@
+{
+  "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FieldMap, APICamaraDeComercio]], mscorlib",
+  "$values": [
+    {
+      "Table": "SAR_VTMCLH",
+      "ParentTable": null,
+      "ParentProperty": null,
+      "Fields": {
+        "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio]], mscorlib",
+        "$values": [
+
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_IDENTI",
+            "PropertyName": "identificador",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_STATUS",
+            "PropertyName": null,
+            "FixedValue": "N",
+            "Function": null
+          },
+
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_NROCTA",
+            "PropertyName": null,
+            "FixedValue": null,
+            "Function": {
+              "$type": "APICamaraDeComercio.Services.Entities.FieldFunction, APICamaraDeComercio",
+              "Name": "Alm_Fnc_Ins_SarVtmclh_DefinoNrocta",
+              "Parameters": {
+                "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FunctionParameters, APICamaraDeComercio]], mscorlib",
+                "$values": [
+                  {
+                    "Name": "NumeroDocumento",
+                    "PropertyName": "numeroDeDocumento"
+                  }
+                ]
+
+              }
+            }
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_NOMBRE",
+            "PropertyName": "razonSocial",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_NROSUB",
+            "PropertyName": null,
+            "FixedValue": null,
+            "Function": {
+              "$type": "APICamaraDeComercio.Services.Entities.FieldFunction, APICamaraDeComercio",
+              "Name": "Alm_Fnc_Ins_SarVtmclh_DefinoNrocta",
+              "Parameters": {
+                "$type": "System.Collections.Generic.List`1[[APICamaraDeComercio.Services.Entities.FunctionParameters, APICamaraDeComercio]], mscorlib",
+                "$values": [
+                  {
+                    "Name": "NumeroDocumento",
+                    "PropertyName": "numeroDeDocumento"
+                  }
+                ]
+
+              }
+            }
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_DIRECC",
+            "PropertyName": "direccionFiscal",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_CODPAI",
+            "PropertyName": "paisFiscal",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_CODPOS",
+            "PropertyName": "codigoPostalFiscal",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_TELEFN",
+            "PropertyName": "telefono",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_CNDIVA",
+            "PropertyName": "situacionImpositiva",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_TIPDOC",
+            "PropertyName": "tipoDeDocumento",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_NRODOC",
+            "PropertyName": "numeroDeDocumento",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_VNDDOR",
+            "PropertyName": null,
+            "FixedValue": "Z",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_COBRAD",
+            "PropertyName": null,
+            "FixedValue": "Z",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_JURISD",
+            "PropertyName": "jurisdiccionFiscal",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_CODZON",
+            "PropertyName": null,
+            "FixedValue": "Z",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_CATEGO",
+            "PropertyName": "categoria",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_CNDPAG",
+            "PropertyName": "condicionDePago",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_CNDPRE",
+            "PropertyName": "listaDePrecios",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_CODCRD",
+            "PropertyName": "limiteDeCredito",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_DIRENT",
+            "PropertyName": "direccionEntrega",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_PAIENT",
+            "PropertyName": "paisEntrega",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_CODENT",
+            "PropertyName": "codigoPostalEntrega",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_JURENT",
+            "PropertyName": "jurisdiccionEntrega",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_ZONENT",
+            "PropertyName": null,
+            "FixedValue": "Z",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_TEXTOS",
+            "PropertyName": "observaciones",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VTMCLH_DIREML",
+            "PropertyName": "mail",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_INHIBE",
+            "PropertyName": "inhibidoParaOperacionesDeFacturacion",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_TRAFCR",
+            "PropertyName": "correspondeFacturadecredito",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_CODEXP",
+            "PropertyName": "codigoDeExportacion",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_ADMCUE",
+            "PropertyName": "administraCuentaCorriente",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_ADMANT",
+            "PropertyName": "admiteAnticiposenCuentaCorriente",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_LISVIS",
+            "PropertyName": "listaDePreciosVisaciones",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_CIRFAC",
+            "PropertyName": "circuitoFacturacionVisaciones",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_FREFAC",
+            "PropertyName": "frecuenciaFacturacion",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_VTMCLH_DEBAJA",
+            "PropertyName": "deBaja",
+            "FixedValue": null,
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VT_FECALT",
+            "PropertyName": null,
+            "FixedValue": "GETDATE()",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VT_FECMOD",
+            "PropertyName": null,
+            "FixedValue": "GETDATE()",
+            "Function": null
+
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VT_ULTOPR",
+            "PropertyName": null,
+            "FixedValue": "A",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VT_USERID",
+            "PropertyName": null,
+            "FixedValue": "API",
+            "Function": null
+          },
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "SAR_VT_OALIAS",
+            "PropertyName": null,
+            "FixedValue": "SAR_VTMCLH",
+            "Function": null
+          }
+
+        ]
+      }
+    }
+  ]
+}

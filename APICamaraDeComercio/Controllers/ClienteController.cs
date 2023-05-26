@@ -1,3 +1,4 @@
+using APICamaraDeComercio.Models.Clientes;
 using APICamaraDeComercio.Models.Facturacion;
 using APICamaraDeComercio.Models.Response;
 using APICamaraDeComercio.Repositories;
@@ -14,28 +15,28 @@ namespace APICamaraDeComercio.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class FacturacionController : ControllerBase
+    public class ClienteController : ControllerBase
     {
 
         private readonly ILogger<FacturacionController> Logger;
 
-        public FacturacionController(ILogger<FacturacionController> logger, FacturacionRepository repository)
+        public ClienteController(ILogger<FacturacionController> logger, ClienteRepository repository)
         {
             Logger = logger;
             Repository = repository;
         }
 
-        public FacturacionRepository Repository { get; }
+        public ClienteRepository Repository { get; }
 
         [HttpPost]
-        public async Task<ActionResult<ComprobanteResponse>> PostFacturacion([FromBody] FacturacionDTO comprobante)
+        public async Task<ActionResult<ComprobanteResponse>> PostCliente([FromBody] ClienteDTO comprobante)
         {
 
             FieldMapper mapping = new FieldMapper();
-            if (!mapping.LoadMappingFile(AppDomain.CurrentDomain.BaseDirectory + @"\Services\FieldMapFiles\Facturacion.json"))
+            if (!mapping.LoadMappingFile(AppDomain.CurrentDomain.BaseDirectory + @"\Services\FieldMapFiles\Cliente.json"))
             { return BadRequest(new ComprobanteDTO((string?)comprobante.GetType()
                                                            .GetProperty("identificador")
-                                                           .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoing", null)); };
+                                                           .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoint", null)); };
 
             string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap, comprobante, comprobante.identificador);
             if (errorMessage!= "")
@@ -50,9 +51,9 @@ namespace APICamaraDeComercio.Controllers
 
         [HttpGet]
         [Route("{identificador}")]
-        public async Task<ActionResult<ComprobanteResponse>> GetFacturacion(string identificador)
+        public async Task<ActionResult<ComprobanteResponse>> GetClienteTransaccion(string identificador)
         {
-            ComprobanteResponse respuesta = await Repository.GetTransaccion(identificador,"SAR_FCRMVH");
+            ComprobanteResponse respuesta = await Repository.GetTransaccion(identificador,"SAR_VTMCLH");
 
             switch (respuesta.response.status)
             {
@@ -63,6 +64,21 @@ namespace APICamaraDeComercio.Controllers
                     return Ok(respuesta);
                     break;
             }
+
+        }
+
+        [HttpGet]
+        
+        public async Task<ActionResult<ClienteDTO>> GetCliente(string numeroDocumento)
+        {
+            ClienteDTO? cliente = await Repository.GetCliente(numeroDocumento);
+
+            if (cliente is not null)
+            {
+                return Ok(cliente);
+            }
+            
+            return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Cliente inexistente", $"No se encontró cliente con el numero de documento {numeroDocumento}.", null)));
 
         }
     }

@@ -11,6 +11,7 @@ C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\Humanizer.dll
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\MessagePack.dll
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\MessagePack.Annotations.dll
+C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\Microsoft.Build.dll

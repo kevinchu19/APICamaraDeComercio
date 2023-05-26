@@ -2,7 +2,10 @@
 
 using APICamaraDeComercio.Exceptions;
 using APICamaraDeComercio.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 //Repositorys
 builder.Services.AddScoped<FacturacionRepository>();
 builder.Services.AddScoped<ComprobanteRepository>();
+builder.Services.AddScoped<LoginRepository>();
+builder.Services.AddScoped<ClienteRepository>();
 
 //Filtro de Excepcion
 builder.Services.AddMvc(Options =>
@@ -23,11 +28,30 @@ builder.Services.AddMvc(Options =>
                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                });
 
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+var key = builder.Configuration["key"];
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
 
 var app = builder.Build();
 
@@ -39,7 +63,8 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-
+app.UseAuthentication();
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();

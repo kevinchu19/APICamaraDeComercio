@@ -191,9 +191,12 @@ namespace APICamaraDeComercio.Repositories
             return "'" + value.ToString() + "'";
         }
 
-        public async Task<ComprobanteResponse> GetTransaccion(string identificador, string table)
+        public virtual async Task<ComprobanteResponse> GetTransaccion(string identificador, string table)
         {
-            string query = $"SELECT * FROM {table} WHERE {table}_IDENTI = '{identificador}'";
+            string query = $"SELECT {table}_STATUS, ISNULL({table}_MODFOR, ISNULL({table}_MODFVT, {table}_MODFST)) {table}_MODFOR, " +
+                $"ISNULL({table}_CODFOR, ISNULL({table}_CODFVT, {table}_CODFST)) {table}_CODFOR, " +
+                $"ISNULL({table}_NROFOR, ISNULL({table}_NROFVT, {table}_NROFST)) {table}_NROFOR " +
+                $"FROM {table} WHERE {table}_IDENTI = '{identificador}'";
 
             using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
             {
@@ -220,8 +223,8 @@ namespace APICamaraDeComercio.Repositories
                                                                                     (string)reader[$"{table}_STATUS"], 
                                                                                     "Procesada Exitosamente", 
                                                                                     "", 
-                                                                                    new ComprobanteGenerado { codigocomprobante= (string)(reader[$"{table}_CODFOR"] is System.DBNull?reader[$"{table}_CODFVT"]: reader[$"{table}_CODFOR"]),
-                                                                                                              numerocomprobante= Convert.ToInt64(reader[$"{table}_NROFOR"] is System.DBNull?reader[$"{table}_NROFVT"]: reader[$"{table}_NROFOR"])
+                                                                                    new ComprobanteGenerado { codigocomprobante= (string)(reader[$"{table}_CODFOR"] ),
+                                                                                                              numerocomprobante= Convert.ToInt64(reader[$"{table}_NROFOR"])
                                                                                     }));
                                         case "N":
                                             return new ComprobanteResponse(new ComprobanteDTO(identificador,

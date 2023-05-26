@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EtS58rf3e///96GD21Iyb9PHh0KYfco09wbicua0D/ZQoAeqohrIQO/5vJcUXiVa/ina7jSIDmNkqfTzjDfyGQ==",
+  "dgSpecHash": "mF83e/ji2RelK6oBWzUdxHYPV4vyXFcz5nJ+xF7+vZtPzclWHdGShz6ENCAyubUV88Wxdjwps9jv2KzgknxX6g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Administrator\\source\\repos\\APICamaraDeComercio\\APICamaraDeComercio\\APICamaraDeComercio.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.16\\microsoft.aspnetcore.authentication.jwtbearer.6.0.16.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.0\\microsoft.aspnetcore.razor.language.6.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.build\\17.3.2\\microsoft.build.17.3.2.nupkg.sha512",

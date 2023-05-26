@@ -9,10 +9,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Reflection;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APICamaraDeComercio.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ComprobanteController : ControllerBase
     {
