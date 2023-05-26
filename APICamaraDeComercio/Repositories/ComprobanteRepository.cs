@@ -9,6 +9,7 @@ namespace APICamaraDeComercio.Repositories
         public ComprobanteRepository(IConfiguration configuration) : base(configuration)
         {}
 
+
         public async Task<PdfDTO?> GetPdfPath(string codigoFormulario, int numeroFormulario)
         {
 

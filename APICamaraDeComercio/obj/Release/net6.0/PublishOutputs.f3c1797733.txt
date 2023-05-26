@@ -1,6 +1,7 @@
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\APICamaraDeComercio.exe
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\appsettings.json
+C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\Services\FieldMapFiles\Cliente.json
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\Services\FieldMapFiles\Facturacion.json
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\APICamaraDeComercio.dll
 C:\Users\Administrator\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\PubTmp\Out\APICamaraDeComercio.deps.json

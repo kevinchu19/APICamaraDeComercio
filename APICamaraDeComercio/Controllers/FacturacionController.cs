@@ -19,13 +19,15 @@ namespace APICamaraDeComercio.Controllers
 
         private readonly ILogger<FacturacionController> Logger;
 
-        public FacturacionController(ILogger<FacturacionController> logger, FacturacionRepository repository)
+        public FacturacionController(ILogger<FacturacionController> logger, FacturacionRepository repository, IConfiguration configuration)
         {
             Logger = logger;
             Repository = repository;
+            Configuration = configuration;
         }
 
         public FacturacionRepository Repository { get; }
+        public IConfiguration Configuration { get; }
 
         [HttpPost]
         public async Task<ActionResult<ComprobanteResponse>> PostFacturacion([FromBody] FacturacionDTO comprobante)
@@ -34,10 +36,13 @@ namespace APICamaraDeComercio.Controllers
             FieldMapper mapping = new FieldMapper();
             if (!mapping.LoadMappingFile(AppDomain.CurrentDomain.BaseDirectory + @"\Services\FieldMapFiles\Facturacion.json"))
             { return BadRequest(new ComprobanteDTO((string?)comprobante.GetType()
-                                                           .GetProperty("identificador")
-                                                           .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoing", null)); };
+                .GetProperty("identificador")
+                .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoing", null)); };
 
-            string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap, comprobante, comprobante.identificador);
+            string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap,
+                                                                              comprobante,
+                                                                              comprobante.identificador,
+                                                                              Configuration["Facturacion:JobName"]);
             if (errorMessage!= "")
             {
                 return BadRequest(new ComprobanteResponse(new ComprobanteDTO(comprobante.identificador, "400", "Bad Request",errorMessage, null)));

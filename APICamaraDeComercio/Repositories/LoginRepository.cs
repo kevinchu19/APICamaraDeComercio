@@ -7,7 +7,9 @@ namespace APICamaraDeComercio.Repositories
     public class LoginRepository:RepositoryBase
     {
         public LoginRepository(IConfiguration configuration) : base(configuration)
-        { }
+        { 
+        
+        }
 
         public async Task<string?> LoginWithJwt(string usuario, string password) {
             

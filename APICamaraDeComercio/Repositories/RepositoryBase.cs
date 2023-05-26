@@ -17,7 +17,7 @@ namespace APICamaraDeComercio.Repositories
 
         public IConfiguration Configuration { get; }
 
-        public async Task<string> ExecuteSqlInsertToTablaSAR(List<FieldMap> fieldMapList, object resource, object valorIdentificador)
+        public async Task<string> ExecuteSqlInsertToTablaSAR(List<FieldMap> fieldMapList, object resource, object valorIdentificador, string jobName)
         {
             string query = "";
 
@@ -48,7 +48,7 @@ namespace APICamaraDeComercio.Repositories
                     {
                         await command.ExecuteNonQueryAsync();
 
-                        await InsertaCwJmSchedules(Configuration["JobName"]);
+                        await InsertaCwJmSchedules(jobName);
                     }
                     catch (SqlException ex)
                     {

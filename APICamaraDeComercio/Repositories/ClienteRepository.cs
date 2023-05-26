@@ -8,7 +8,8 @@ namespace APICamaraDeComercio.Repositories
     public class ClienteRepository: RepositoryBase
     {
         public ClienteRepository(IConfiguration configuration) : base(configuration)
-        {}
+        {
+        }
 
 
         public async Task<ClienteDTO?> GetCliente (string numeroDocumento)

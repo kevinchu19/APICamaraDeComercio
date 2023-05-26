@@ -20,13 +20,15 @@ namespace APICamaraDeComercio.Controllers
 
         private readonly ILogger<FacturacionController> Logger;
 
-        public ClienteController(ILogger<FacturacionController> logger, ClienteRepository repository)
+        public ClienteController(ILogger<FacturacionController> logger, ClienteRepository repository, IConfiguration configuration)
         {
             Logger = logger;
             Repository = repository;
+            Configuration = configuration;
         }
 
         public ClienteRepository Repository { get; }
+        public IConfiguration Configuration { get; }
 
         [HttpPost]
         public async Task<ActionResult<ComprobanteResponse>> PostCliente([FromBody] ClienteDTO comprobante)
@@ -38,7 +40,10 @@ namespace APICamaraDeComercio.Controllers
                                                            .GetProperty("identificador")
                                                            .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoint", null)); };
 
-            string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap, comprobante, comprobante.identificador);
+            string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap, 
+                                                                              comprobante, 
+                                                                              comprobante.identificador,
+                                                                              Configuration["Clientes:JobName"]);
             if (errorMessage!= "")
             {
                 return BadRequest(new ComprobanteResponse(new ComprobanteDTO(comprobante.identificador, "400", "Bad Request",errorMessage, null)));
