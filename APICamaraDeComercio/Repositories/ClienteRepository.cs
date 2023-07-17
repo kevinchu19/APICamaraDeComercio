@@ -5,9 +5,9 @@ using Microsoft.Data.SqlClient;
 
 namespace APICamaraDeComercio.Repositories
 {
-    public class ClienteRepository: RepositoryBase
+    public class ClienteRepository : RepositoryBase
     {
-        public ClienteRepository(IConfiguration configuration) : base(configuration)
+        public ClienteRepository (IConfiguration configuration) : base(configuration)
         {
         }
 

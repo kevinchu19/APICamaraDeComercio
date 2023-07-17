@@ -2,7 +2,9 @@
 using APICamaraDeComercio.Models.Response.Pdf;
 using APICamaraDeComercio.Services.Entities;
 using Microsoft.Data.SqlClient;
+using System.Collections;
 using System.Configuration;
+using System.Data;
 using System.Reflection;
 using System.Transactions;
 
@@ -193,7 +195,7 @@ namespace APICamaraDeComercio.Repositories
 
         public virtual async Task<ComprobanteResponse> GetTransaccion(string identificador, string table)
         {
-            string query = $"SELECT {table}_STATUS, ISNULL({table}_MODFOR, ISNULL({table}_MODFVT, {table}_MODFST)) {table}_MODFOR, " +
+            string query = $"SELECT {table}_STATUS, {table}_ERRMSG,ISNULL({table}_MODFOR, ISNULL({table}_MODFVT, {table}_MODFST)) {table}_MODFOR, " +
                 $"ISNULL({table}_CODFOR, ISNULL({table}_CODFVT, {table}_CODFST)) {table}_CODFOR, " +
                 $"ISNULL({table}_NROFOR, ISNULL({table}_NROFVT, {table}_NROFST)) {table}_NROFOR " +
                 $"FROM {table} WHERE {table}_IDENTI = '{identificador}'";
@@ -256,9 +258,51 @@ namespace APICamaraDeComercio.Repositories
 
             }
         }
+        public async Task<List<TResult?>> ExecuteStoredProcedureList<TResult>(string sqlCommand, Dictionary<string, object> parameters)
+        {
+
+            List<TResult?> result = new List<TResult?>();
+
+            using (SqlConnection sql = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
+            {
+                using (SqlCommand cmd = new SqlCommand(sqlCommand, sql))
+                {
+
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    foreach (var item in parameters)
+                    {
+                        SqlParameter parameter = new SqlParameter(item.Key, item.Value);
+                        if (item.Value != null)
+                        {
+                            if (item.Value.GetType() == typeof(DataTable))
+                            {
+                                parameter.SqlDbType = SqlDbType.Structured;
+                                parameter.TypeName = "dbo.Alm_SeguimientoFacturacionList";
+                            }
+                        }
+                        cmd.Parameters.Add(parameter);
+
+                    }
+
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            result.Add(MapToValue<TResult>(reader));
+                        }
+                    }
+                }
+            }
+
+            return (List<TResult?>)result;
+
+        }
 
         public async Task<TResult?> ExecuteStoredProcedure<TResult>(string sqlCommand, Dictionary<string, object> parameters)
         {
+
             TResult? result = default;
 
             using (SqlConnection sql = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
@@ -269,7 +313,17 @@ namespace APICamaraDeComercio.Repositories
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     foreach (var item in parameters)
                     {
-                        cmd.Parameters.Add(new SqlParameter(item.Key, item.Value));
+                        SqlParameter parameter = new SqlParameter(item.Key, item.Value);
+                        if (item.Value != null)
+                        {
+                            if (item.Value.GetType() == typeof(DataTable))
+                            {
+                                parameter.SqlDbType = SqlDbType.Structured;
+                                parameter.TypeName = "dbo.Alm_SeguimientoFacturacionList";
+                            }
+                        }
+                        cmd.Parameters.Add(parameter);
+                        
                     }
 
                     await sql.OpenAsync();

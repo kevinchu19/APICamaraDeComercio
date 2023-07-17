@@ -19,8 +19,6 @@ namespace APICamaraDeComercio.Repositories
 
             return await ExecuteStoredProcedure<PdfDTO>("ALM_GetPdfForAPI",
                                                                             new Dictionary<string, object>{
-                                                                                { "@Codemp", "CAC01" },
-                                                                                { "@Modfor", "VT" },
                                                                                 { "@Codfor", codigoFormulario },
                                                                                 { "@Nrofor", numeroFormulario}
                                                                             });
