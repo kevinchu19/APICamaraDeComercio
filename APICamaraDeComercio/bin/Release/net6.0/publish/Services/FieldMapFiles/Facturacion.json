@@ -240,7 +240,7 @@
           },
           {
             "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
-            "Field": "SAR_FCRMVI_NROCER",
+            "Field": "USR_FCRMVI_NROCER",
             "PropertyName": "numero_de_certificado",
             "FixedValue": null,
             "Function": null

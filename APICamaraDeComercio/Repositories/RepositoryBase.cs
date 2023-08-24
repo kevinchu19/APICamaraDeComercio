@@ -234,6 +234,12 @@ namespace APICamaraDeComercio.Repositories
                                                                                     "Pendiente de procesar",
                                                                                     "",
                                                                                     null));
+                                        case "P":
+                                            return new ComprobanteResponse(new ComprobanteDTO(identificador,
+                                                                                   (string)reader[$"{table}_STATUS"],
+                                                                                    "En procesamiento",
+                                                                                    "",
+                                                                                    null));
 
                                         default:
                                             break;
