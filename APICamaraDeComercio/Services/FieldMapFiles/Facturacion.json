@@ -170,7 +170,7 @@
                 "$values": [
                   {
                     "Name": "NumeroDocumento",
-                    "PropertyName": "numero_de_documento_generador"
+                    "PropertyName": "numero_de_documento"
                   }
                 ]
 

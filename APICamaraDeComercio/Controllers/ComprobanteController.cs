@@ -33,8 +33,9 @@ namespace APICamaraDeComercio.Controllers
 
         [HttpGet]
         [Route("file")]
-        public async Task<ActionResult<PdfResponse>> GetFiles(string codigoComprobante, string numeroComprobante, bool pidePdf)
+        public async Task<ActionResult<PdfResponse>> GetFiles(string codigoComprobante, string numeroComprobante, bool pidePdf = true)
         {
+
             int numeroFormulario = 0;
 
             bool isNumber = Int32.TryParse(numeroComprobante, out numeroFormulario);
