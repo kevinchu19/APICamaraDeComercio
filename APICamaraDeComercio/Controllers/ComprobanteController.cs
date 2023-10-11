@@ -10,6 +10,7 @@ using Newtonsoft.Json.Converters;
 using System.Reflection;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace APICamaraDeComercio.Controllers
 {
@@ -32,7 +33,7 @@ namespace APICamaraDeComercio.Controllers
 
         [HttpGet]
         [Route("file")]
-        public async Task<ActionResult<PdfResponse>> GetFiles(string codigoComprobante, string numeroComprobante)
+        public async Task<ActionResult<PdfResponse>> GetFiles(string codigoComprobante, string numeroComprobante, bool pidePdf)
         {
             int numeroFormulario = 0;
 
@@ -45,27 +46,35 @@ namespace APICamaraDeComercio.Controllers
 
             PdfDTO? result = await Repository.GetPdfPath(codigoComprobante, numeroFormulario );
 
+
+
             if (result == null)
             {
                 return NotFound(new PdfResponse(new PdfDTO("El comprobante solicitado no existe")));
             }
 
-            if (result.pdf =="" )
-            {
-                return NotFound(new PdfResponse(new PdfDTO( "El comprobante solicitado no tiene pdf generado")));
+            if (pidePdf) {
+                if (result.pdf == "")
+                {
+                    return NotFound(new PdfResponse(new PdfDTO("El comprobante solicitado no tiene pdf generado")));
+                }
+
+                try
+                {
+                    byte[] bytes = await System.IO.File.ReadAllBytesAsync(result.pdf);
+                    result.pdf = Convert.ToBase64String(bytes);
+                    return Ok(new PdfResponse(result));
+                }
+                catch (Exception ex)
+                {
+
+                    return NotFound(new PdfResponse(new PdfDTO("No se encontro el archivo pdf asociado al comprobante solicitado")));
+                }
             }
 
-            try
-            {
-                byte[] bytes = await System.IO.File.ReadAllBytesAsync(result.pdf);
-                result.pdf = Convert.ToBase64String(bytes);
-                return Ok(new PdfResponse(result));
-            }
-            catch (Exception ex)
-            {
+            result.pdf = null;
 
-                return NotFound(new PdfResponse(new PdfDTO("No se encontro el archivo pdf asociado al comprobante solicitado")));
-            }
+            return Ok(new PdfResponse(result));
         }
 
     }

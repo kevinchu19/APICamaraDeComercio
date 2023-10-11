@@ -37,7 +37,7 @@ namespace APICamaraDeComercio.Controllers
             if (!mapping.LoadMappingFile(AppDomain.CurrentDomain.BaseDirectory + @"\Services\FieldMapFiles\Facturacion.json"))
             { return BadRequest(new ComprobanteDTO((string?)comprobante.GetType()
                 .GetProperty("identificador")
-                .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoing", null)); };
+                .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoint", null)); };
 
             string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap,
                                                                               comprobante,
