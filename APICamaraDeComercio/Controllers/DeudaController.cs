@@ -34,8 +34,12 @@ namespace APICamaraDeComercio.Controllers
 
         [HttpGet]
         
-        public async Task<ActionResult<List<DeudaDTO>>> GetDeuda(string numeroDocumento, string businessUnit)
+        public async Task<ActionResult<List<DeudaDTO>>> GetDeuda(string? numeroDocumento, string businessUnit)
         {
+            if (numeroDocumento is null)
+            {
+                numeroDocumento = "";
+            }
             List<DeudaDTO?> Deuda = await Repository.GetDeuda(numeroDocumento, businessUnit);
 
             if (Deuda.Count() > 0)
