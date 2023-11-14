@@ -20,7 +20,7 @@ namespace APICamaraDeComercio.Repositories
 
             response = await ExecuteStoredProcedureList<VEPDTO?>("ALM_GetVEPForAPI",
                                                                            new Dictionary<string, object>{
-                                                                                { "@NumeroDocumentoGenerador", numeroDocumento },
+                                                                                { "@NumeroDocumento", numeroDocumento },
                                                                                 { "@FechaDesde", fechaDesde is null ? DBNull.Value : fechaDesde},
                                                                                 { "@FechaHasta", fechaHasta is null ? DBNull.Value : fechaHasta},
                                                                                 { "@CodigoImputacion", bussinessUnit}
@@ -29,7 +29,8 @@ namespace APICamaraDeComercio.Repositories
             {
                 item.comprobantes = await ExecuteStoredProcedureList<VEPComprobanteDTO?>("ALM_GetComprobantesVEPForAPI",
                       new Dictionary<string, object>{
-                            { "@NumeroVEP", item.numeroVEP}
+                            { "@NumeroVEP", item.numeroVEP},
+                            { "@NumeroDocumento", numeroDocumento}
                          });
             }
 
