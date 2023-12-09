@@ -51,7 +51,8 @@ namespace APICamaraDeComercio.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, credentials.usuario)
+                    new Claim(ClaimTypes.Name, credentials.usuario)                   
+
                 }),
                 Expires = DateTime.UtcNow.AddHours(4),
                 SigningCredentials = new SigningCredentials(
@@ -60,7 +61,9 @@ namespace APICamaraDeComercio.Controllers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-
+            //tokenDescriptor.Subject.AddClaim(
+            //        new Claim(ClaimTypes.Expiration, tokenDescriptor.Expires.ToString())
+            //    ); 
 
             return Ok(new LoginResponse
             {

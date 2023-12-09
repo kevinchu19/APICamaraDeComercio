@@ -7,6 +7,7 @@
         public string fecha_de_movimento { get; set; }
         public string? observaciones { get; set; }
         public string? email { get; set; }
+        public string? numero_de_documento_generador { get; set; }
 
         public List<FacturacionItemsDTO> items_a_facturar { get; set; }
 

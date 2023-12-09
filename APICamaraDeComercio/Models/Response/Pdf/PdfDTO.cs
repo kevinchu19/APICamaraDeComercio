@@ -12,6 +12,7 @@ namespace APICamaraDeComercio.Models.Response.Pdf
         public string? numeroAfip { get; set; }
         public decimal? importeTotal { get; set; }
         public string? pdf { get;  set; }
+        public string? cobrado { get; set; }
        
 
         public PdfDTO()
