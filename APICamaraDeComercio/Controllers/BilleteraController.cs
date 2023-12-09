@@ -64,5 +64,13 @@ namespace APICamaraDeComercio.Controllers
             return Ok(Billetera);            
 
         }
+
+        [HttpGet]
+        [Route("montossugeridos")]
+
+        public async Task<ActionResult<List<decimal>>> GetMontosSugeridosBilletera()
+        {
+            return Ok(await Repository.GetMontosSugeridosBilletera());
+        }
     }
 }

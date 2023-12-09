@@ -13,7 +13,15 @@ namespace APICamaraDeComercio.Repositories
         {
         }
 
+        public async Task<List<decimal>> GetMontosSugeridosBilletera()
+        {
+            List<Decimal> response = new List<Decimal>();
 
+            response = await ExecuteStoredProcedureArray<decimal>("ALM_GetBilleteraMontosSugeridos");
+
+            return response;
+
+        }
         public async Task<List<BilleteraDTO?>> GetBilletera (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit)
         {
             List<BilleteraDTO?> response = new List<BilleteraDTO?> ();    

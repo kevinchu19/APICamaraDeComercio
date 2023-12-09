@@ -36,6 +36,48 @@ namespace APICamaraDeComercio.Repositories
 
             return response;
         }
-       
+
+        public async Task<VEPDTO?> PostVEP (VEPDTO vep)
+        {
+            VEPDTO? response = new VEPDTO();
+
+            try
+            {
+
+                response = await ExecuteStoredProcedure<VEPDTO?>("Alm_PostVEPHeaderForAPI",
+                                                                               new Dictionary<string, object>{
+                                                                                    { "@Fchmov", vep.fecha },
+                                                                                    { "@Medpag", vep.medioDePago },
+                                                                                    { "@Import", vep.importe},
+                                                                                    { "@Estado", vep.estado},
+                                                                                    { "@Nrodoc", vep.numeroDocumento},
+                                                                                    { "@BusinessUnit", vep.businessUnit}
+                                                                               });
+                if (response != null)
+                {
+                    foreach (VEPComprobanteDTO comprobante in vep.comprobantes)
+                    {
+                        response.comprobantes.Add(await ExecuteStoredProcedure<VEPComprobanteDTO?>("Alm_PostVEPDocumentForAPI",
+                                                                                    new Dictionary<string, object>{
+                                                                                        { "@Nrovep", response.numeroVEP },
+                                                                                        { "@Codemp", "CAC01" },
+                                                                                        { "@Modfor", "VT"},
+                                                                                        { "@Codfor", comprobante.comprobante.Substring(0,6)},
+                                                                                        { "@Nrofor", Int64.Parse(comprobante.comprobante.Substring(7,8))},
+                                                                                        { "@Import", comprobante.importe}
+                                                                                    }));
+                    }
+                }
+            
+
+            }
+            catch (Exception ex)
+            {
+                response = new VEPDTO();   
+                response.mensaje = ex.Message;
+            }
+
+            return response;
+        }
     }
 }

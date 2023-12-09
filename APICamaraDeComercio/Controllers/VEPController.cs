@@ -50,5 +50,23 @@ namespace APICamaraDeComercio.Controllers
             return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "VEP inexistentes", $"No se encontraron VEP para el numero de documento {numeroDocumento}.", null)));
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult<VEPResponse>> PostVEP([FromBody] VEPDTO vep)
+        {
+            VEPDTO response = new VEPDTO();
+            string ErrorMessage = "";
+
+            if (vep.importe != vep.comprobantes.Select(v=> v.importe).Sum())
+            {
+                return BadRequest(new VEPResponse(new VEPDTO("La suma de importe de los comprobantes debe coincidir con el importe del VEP.")));
+            }
+
+
+            response = await Repository.PostVEP(vep);
+
+            return Ok(new VEPResponse(response));    
+
+        }
     }
 }

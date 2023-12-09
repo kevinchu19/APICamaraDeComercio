@@ -306,6 +306,50 @@ namespace APICamaraDeComercio.Repositories
 
         }
 
+        public async Task<List<TResult?>> ExecuteStoredProcedureArray<TResult>(string sqlCommand, Dictionary<string, object>? parameters = null)
+        {
+            List<TResult?> result = new List<TResult?>();
+
+            using (SqlConnection sql = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
+            {
+                using (SqlCommand cmd = new SqlCommand(sqlCommand, sql))
+                {
+
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    if (parameters != null)
+                    { 
+                        foreach (var item in parameters)
+                        {
+                            SqlParameter parameter = new SqlParameter(item.Key, item.Value);
+                            if (item.Value != null)
+                            {
+                                if (item.Value.GetType() == typeof(DataTable))
+                                {
+                                    parameter.SqlDbType = SqlDbType.Structured;
+                                    parameter.TypeName = "dbo.Alm_SeguimientoFacturacionList";
+                                }
+                            }
+                            cmd.Parameters.Add(parameter);
+
+                        }
+                    }
+
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            result.Add((TResult)reader["values"]);
+                        }
+                    }
+                }
+            }
+
+            return (List<TResult?>)result;
+        }
+
         public async Task<TResult?> ExecuteStoredProcedure<TResult>(string sqlCommand, Dictionary<string, object> parameters)
         {
 
