@@ -57,13 +57,21 @@ namespace APICamaraDeComercio.Controllers
             VEPDTO response = new VEPDTO();
             string ErrorMessage = "";
 
-            if (vep.importe != vep.comprobantes.Select(v=> v.importe).Sum())
+            if (vep.comprobantes.Count()>0)
             {
-                return BadRequest(new VEPResponse(new VEPDTO("La suma de importe de los comprobantes debe coincidir con el importe del VEP.")));
+                if (vep.importe != vep.comprobantes.Select(v=> v.importe).Sum())
+                {
+                    return BadRequest(new VEPResponse(new VEPDTO("La suma de importe de los comprobantes debe coincidir con el importe del VEP.")));
+                }
             }
 
 
             response = await Repository.PostVEP(vep);
+
+            if (response.mensaje != null)
+            {
+                return BadRequest(new VEPResponse(response));
+            }
 
             return Ok(new VEPResponse(response));    
 
