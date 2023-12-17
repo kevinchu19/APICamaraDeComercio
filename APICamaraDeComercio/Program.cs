@@ -20,6 +20,7 @@ builder.Services.AddScoped<SeguimientoFacturacionRepository>();
 builder.Services.AddScoped<DeudaRepository>();
 builder.Services.AddScoped<VEPRepository>();
 builder.Services.AddScoped<BilleteraRepository>();
+builder.Services.AddScoped<UsuarioRepository>();
 
 //Filtro de Excepcion
 builder.Services.AddMvc(Options =>

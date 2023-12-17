@@ -65,11 +65,8 @@ namespace APICamaraDeComercio.Controllers
             //        new Claim(ClaimTypes.Expiration, tokenDescriptor.Expires.ToString())
             //    ); 
 
-            return Ok(new LoginResponse
-            {
-                token = tokenHandler.WriteToken(token),
-                expirationDate = tokenDescriptor.Expires
-            });
+            return Ok(await Repository.GetLoggedUserData(credentials.usuario, tokenHandler.WriteToken(token), tokenDescriptor.Expires));
+           
 
 
             

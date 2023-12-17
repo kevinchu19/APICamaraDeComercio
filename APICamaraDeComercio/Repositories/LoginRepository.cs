@@ -1,4 +1,6 @@
 ﻿using APICamaraDeComercio.Models.Response;
+using APICamaraDeComercio.Models.Response.Billetera;
+using APICamaraDeComercio.Models.Response.Login;
 using Microsoft.Data.SqlClient;
 using NuGet.Protocol.Plugins;
 
@@ -55,6 +57,20 @@ namespace APICamaraDeComercio.Repositories
             }
 
             return null;
+        }
+
+        public async Task<LoginResponse> GetLoggedUserData(string userid, string token, DateTime? expirationDate)
+        {
+            LoginResponse response = new LoginResponse();
+            
+            response = await ExecuteStoredProcedure<LoginResponse>("ALM_GetLoggedUserForAPI",
+                                                                         new Dictionary<string, object>{
+                                                                                { "@UserId", userid}
+                                                                         });
+            response.token = token;
+            response.expirationDate = expirationDate;
+
+            return response;
         }
     }
 }
