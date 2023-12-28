@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace APICamaraDeComercio.Controllers
 {
@@ -34,34 +35,51 @@ namespace APICamaraDeComercio.Controllers
 
         [HttpGet]
         
-        public async Task<ActionResult<List<BilleteraDTO>>> GetBilletera(string? numeroDocumento, string? fechaDesde, string? fechaHasta, string businessUnit)
+        public async Task<ActionResult<List<BilleteraDTO>>> GetBilletera(string? fechaDesde, string? fechaHasta)
         {
-            if (numeroDocumento is null)
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
             {
-                numeroDocumento = "";
-            }
-            List<BilleteraDTO?> Billetera = await Repository.GetBilletera(numeroDocumento, fechaDesde, fechaHasta, businessUnit);
+                IEnumerable<Claim> claims = identity.Claims;
+                string? numeroDocumento = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string businessUnit = claims.FirstOrDefault(c => c.Type == "businessUnit").Value;
 
-            if (Billetera.Count() > 0)
-            {
-                return Ok(Billetera);
-            }
-            
-            return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Billetera inexistente", $"No se encontraron registros de billetera para el numero de documento {numeroDocumento}.", null)));
+                if (numeroDocumento is null)
+                {
+                    numeroDocumento = "";
+                }
+                List<BilleteraDTO?> Billetera = await Repository.GetBilletera(numeroDocumento, fechaDesde, fechaHasta, businessUnit);
 
+                if (Billetera.Count() > 0)
+                {
+                    return Ok(Billetera);
+                }
+
+                return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Billetera inexistente", $"No se encontraron registros de billetera para el numero de documento {numeroDocumento}.", null)));
+            }
+            return Unauthorized();
         }
 
         [HttpGet]
         [Route("saldo")]
-        public async Task<ActionResult<SaldoBilleteraDTO>> GetSaldoBilletera(string? numeroDocumento, string businessUnit)
+        public async Task<ActionResult<SaldoBilleteraDTO>> GetSaldoBilletera()
         {
-            if (numeroDocumento is null)
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
             {
-                numeroDocumento = "";
-            }
-            SaldoBilleteraDTO? Billetera = await Repository.GetSaldoBilletera(numeroDocumento, businessUnit);
+                IEnumerable<Claim> claims = identity.Claims;
+                string? numeroDocumento = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string businessUnit = claims.FirstOrDefault(c => c.Type == "businessUnit").Value;
 
-            return Ok(Billetera);            
+                if (numeroDocumento is null)
+                {
+                    numeroDocumento = "";
+                }
+                SaldoBilleteraDTO? Billetera = await Repository.GetSaldoBilletera(numeroDocumento, businessUnit);
+
+                return Ok(Billetera);
+            }
+            return Unauthorized();
 
         }
 

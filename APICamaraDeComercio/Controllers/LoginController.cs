@@ -45,13 +45,26 @@ namespace APICamaraDeComercio.Controllers
                 return Unauthorized(new LoginResponse() {mensaje=errorMessage });
             }
 
+            LoginResponse response = await Repository.GetLoggedUserData(credentials.usuario);
+            
+           
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(key);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, credentials.usuario)                   
+                    new Claim(ClaimTypes.Name, credentials.usuario),
+                    new Claim("id", response.id),
+                    new Claim("nombre", response.nombre),
+                    new Claim("rol", response.rol),
+                    new Claim("businessUnit", response.businessUnit),
+                    new Claim("razonSocial", response.razonSocial),
+                    new Claim("numeroDocumento", response.numeroDocumento),
+                    new Claim("primerAcceso", (response.primerAcceso ? "true":"false")),
+                    new Claim("passwordReseteada", response.passwordReseteada?"true":"false"),
+                    new Claim("terminosYCondiciones", response.terminosYCondiciones?"true":"false")
+
 
                 }),
                 Expires = DateTime.UtcNow.AddHours(4),
@@ -65,7 +78,12 @@ namespace APICamaraDeComercio.Controllers
             //        new Claim(ClaimTypes.Expiration, tokenDescriptor.Expires.ToString())
             //    ); 
 
-            return Ok(await Repository.GetLoggedUserData(credentials.usuario, tokenHandler.WriteToken(token), tokenDescriptor.Expires));
+            response = new LoginResponse();
+
+            response.token = tokenHandler.WriteToken(token);
+            response.expirationDate = tokenDescriptor.Expires;
+            
+            return Ok(response);
            
 
 

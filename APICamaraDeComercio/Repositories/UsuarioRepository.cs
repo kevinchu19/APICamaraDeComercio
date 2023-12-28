@@ -22,6 +22,27 @@ namespace APICamaraDeComercio.Repositories
                                                                            });
 
         }
-        
+
+        public async Task<RecoverPasswordDTO?> ChangePassword(string useriId, string newPassword)
+        {
+            return await ExecuteStoredProcedure<RecoverPasswordDTO?>("Alm_PostPasswordChangeForAPI",
+                                                                           new Dictionary<string, object>{
+                                                                                { "@Userid", useriId },
+                                                                                { "@NewPassword", newPassword}
+                                                                           });
+
+        }
+
+
+        public async Task<TerminosYCondicionesDTO?> UpdateTerminosYCondiciones(string userId, bool result)
+        {
+            return await ExecuteStoredProcedure<TerminosYCondicionesDTO?>("Alm_PutTerminosYCondicionesForAPI",
+                                                                        new Dictionary<string, object>{
+                                                                                { "@Userid", userId },
+                                                                                { "@Result", result?"S":"N" }    
+                                                                        });
+
+        }
+
     }
 }

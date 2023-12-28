@@ -1,4 +1,6 @@
-﻿namespace APICamaraDeComercio.Models.Response.Login
+﻿using System.Text.Json.Serialization;
+
+namespace APICamaraDeComercio.Models.Response.Login
 {
     public class LoginResponse
     {
@@ -10,6 +12,12 @@
         public string? businessUnit { get; set; }
         public string? razonSocial { get; set; }
         public string? numeroDocumento { get; set; }
+        [JsonIgnore]
+        public bool primerAcceso { get; set; }
+        [JsonIgnore]
+        public bool passwordReseteada { get; set; }
+        [JsonIgnore]
+        public bool terminosYCondiciones { get; set; }
 
 
         public string? mensaje { get; set; }

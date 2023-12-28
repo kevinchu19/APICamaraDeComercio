@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace APICamaraDeComercio.Controllers
 {
@@ -34,20 +35,31 @@ namespace APICamaraDeComercio.Controllers
 
         [HttpGet]
         
-        public async Task<ActionResult<List<DeudaDTO>>> GetDeuda(string? numeroDocumento, string businessUnit)
+        public async Task<ActionResult<List<DeudaDTO>>> GetDeuda()
         {
-            if (numeroDocumento is null)
-            {
-                numeroDocumento = "";
-            }
-            List<DeudaDTO?> Deuda = await Repository.GetDeuda(numeroDocumento, businessUnit);
 
-            if (Deuda.Count() > 0)
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
             {
-                return Ok(Deuda);
+                IEnumerable<Claim> claims = identity.Claims;
+                string? numeroDocumento = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string businessUnit = claims.FirstOrDefault(c => c.Type == "businessUnit").Value;
+
+
+                if (numeroDocumento is null)
+                {
+                    numeroDocumento = "";
+                }
+                List<DeudaDTO?> Deuda = await Repository.GetDeuda(numeroDocumento, businessUnit);
+
+                if (Deuda.Count() > 0)
+                {
+                    return Ok(Deuda);
+                }
+
+                return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Deuda inexistente", $"No se encontró Deuda con el numero de documento {numeroDocumento}.", null)));
             }
-            
-            return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Deuda inexistente", $"No se encontró Deuda con el numero de documento {numeroDocumento}.", null)));
+            return Unauthorized();
 
         }
     }

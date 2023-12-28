@@ -37,7 +37,7 @@ namespace APICamaraDeComercio.Repositories
 
             }
 
-            query = $"SELECT * FROM USR_WSTUSH WHERE USR_WSTUSH_CODIGO = '{usuario}' AND USR_WSTUSH_PWD256 = HASHBYTES('SHA2_256','{password}')";
+            query = $"SELECT * FROM USR_WSTUSH WHERE USR_WSTUSH_CODIGO = '{usuario}' AND USR_WSTUSH_PWD256 = convert(varbinary(max),'0x{password}',1)";
 
             using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
             {
@@ -59,16 +59,14 @@ namespace APICamaraDeComercio.Repositories
             return null;
         }
 
-        public async Task<LoginResponse> GetLoggedUserData(string userid, string token, DateTime? expirationDate)
+        public async Task<LoginResponse> GetLoggedUserData(string userid)
         {
             LoginResponse response = new LoginResponse();
-            
+
             response = await ExecuteStoredProcedure<LoginResponse>("ALM_GetLoggedUserForAPI",
                                                                          new Dictionary<string, object>{
-                                                                                { "@UserId", userid}
-                                                                         });
-            response.token = token;
-            response.expirationDate = expirationDate;
+                                                                                { "@UserId", userid} });
+           
 
             return response;
         }
