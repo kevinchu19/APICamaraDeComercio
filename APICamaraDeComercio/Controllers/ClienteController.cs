@@ -4,6 +4,7 @@ using APICamaraDeComercio.Models.Facturacion;
 using APICamaraDeComercio.Models.Response;
 using APICamaraDeComercio.Repositories;
 using APICamaraDeComercio.Services;
+using APICamaraDeComercio.Services.ApiKey;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -92,18 +93,11 @@ namespace APICamaraDeComercio.Controllers
         }
 
         [HttpGet]
+        [ApiKey]
         [Route("untoken")]
         public async Task<ActionResult<ClienteDTO>> GetClienteSinToken(string numeroDocumento)
         {
-            ClienteDTO? cliente = await Repository.GetCliente(numeroDocumento);
-
-            if (cliente is not null)
-            {
-                return Ok(cliente);
-            }
-
-            return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Cliente inexistente", $"No se encontró cliente con el numero de documento {numeroDocumento}.", null)));
-
+            return await GetCliente(numeroDocumento);
         }
     }
 }

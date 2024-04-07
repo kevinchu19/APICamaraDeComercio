@@ -2,6 +2,7 @@ using APICamaraDeComercio.Models.Facturacion;
 using APICamaraDeComercio.Models.Response;
 using APICamaraDeComercio.Repositories;
 using APICamaraDeComercio.Services;
+using APICamaraDeComercio.Services.ApiKey;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,7 +13,6 @@ using System.Reflection;
 namespace APICamaraDeComercio.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     public class FacturacionController : ControllerBase
     {
@@ -30,6 +30,7 @@ namespace APICamaraDeComercio.Controllers
         public IConfiguration Configuration { get; }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ComprobanteResponse>> PostFacturacion([FromBody] FacturacionDTO comprobante)
         {
 
@@ -54,6 +55,7 @@ namespace APICamaraDeComercio.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("{identificador}")]
         public async Task<ActionResult<ComprobanteResponse>> GetFacturacion(string identificador)
         {
@@ -70,5 +72,23 @@ namespace APICamaraDeComercio.Controllers
             }
 
         }
+
+        [HttpPost]
+        [ApiKey]
+        [Route("untoken")]
+        public async Task<ActionResult<ComprobanteResponse>> PostFacturacionUntoken([FromBody] FacturacionDTO comprobante)
+        {
+            return await PostFacturacion(comprobante);
+        }
+
+        [HttpGet]
+        [ApiKey]
+        [Route("untoken/{identificador}")]
+        public async Task<ActionResult<ComprobanteResponse>> GetFacturacionUntoken(string identificador)
+        {
+            return await GetFacturacion(identificador);
+
+        }
+
     }
 }
