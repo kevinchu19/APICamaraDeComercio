@@ -63,7 +63,8 @@ namespace APICamaraDeComercio.Controllers
                     new Claim("numeroDocumento", response.numeroDocumento),
                     new Claim("primerAcceso", (response.primerAcceso ? "true":"false")),
                     new Claim("passwordReseteada", response.passwordReseteada?"true":"false"),
-                    new Claim("terminosYCondiciones", response.terminosYCondiciones?"true":"false")
+                    new Claim("terminosYCondiciones", response.terminosYCondiciones?"true":"false"),
+                    new Claim("calculaVencimientos", response.calculaVencimientos?"true":"false")
 
 
                 }),

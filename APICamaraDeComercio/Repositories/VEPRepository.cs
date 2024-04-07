@@ -1,8 +1,4 @@
-﻿using APICamaraDeComercio.Models.Response;
-using APICamaraDeComercio.Models.Response.VEP;
-using APICamaraDeComercio.Models.Response.Pdf;
-using Microsoft.Data.SqlClient;
-using APICamaraDeComercio.Models.SeguimientoFacturacion;
+﻿using APICamaraDeComercio.Models.Response.VEP;
 using Azure;
 
 namespace APICamaraDeComercio.Repositories
@@ -14,11 +10,11 @@ namespace APICamaraDeComercio.Repositories
         }
 
 
-        public async Task<List<VEPDTO?>> GetVEP (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit)
+        public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit)
         {
             List<VEPDTO?> response = new List<VEPDTO?> ();    
 
-            response = await ExecuteStoredProcedureList<VEPDTO?>("ALM_GetVEPForAPI",
+            response = await ExecuteStoredProcedureList<VEPDTO?>("ALM_GetVEPListForAPI",
                                                                            new Dictionary<string, object>{
                                                                                 { "@NumeroDocumento", numeroDocumento },
                                                                                 { "@FechaDesde", fechaDesde is null ? DBNull.Value : fechaDesde},
@@ -64,7 +60,8 @@ namespace APICamaraDeComercio.Repositories
                                                                                         { "@Modfor", "VT"},
                                                                                         { "@Codfor", comprobante.comprobante.Substring(0,6)},
                                                                                         { "@Nrofor", Int64.Parse(comprobante.comprobante.Substring(7,8))},
-                                                                                        { "@Import", comprobante.importe}
+                                                                                        { "@Import", comprobante.importe},
+                                                                                        { "@CodigoImputacion", vep.businessUnit}
                                                                                     }));
                     }
                 }
@@ -77,6 +74,32 @@ namespace APICamaraDeComercio.Repositories
                 response.mensaje = ex.Message;
             }
 
+            return response;
+        }
+
+        public async Task<VEPDTO> GetVEP(int id)
+        {
+
+            VEPDTO? response = new VEPDTO();
+            response = await ExecuteStoredProcedure<VEPDTO?>("Alm_GetVEPForAPI",
+                                                                               new Dictionary<string, object>{
+                                                                                    { "@NroVEP", id }
+                                                                               });
+            
+            return response;
+        }
+
+        public async Task<VEPDTO> PatchVEP(VEPDTO vep)
+        {
+            var response = await ExecuteStoredProcedure<VEPDTO?>("Alm_PatchVEPForAPI",
+                                                                               new Dictionary<string, object>{
+                                                                                   { "@NroVEP", vep.numeroVEP},
+                                                                                   { "@NuevoEstado", vep.estado },
+                                                                                    { "@FechaPago", vep.fechaPago},
+                                                                                    { "@CodigoAutorizacion", vep.codigoAutorizacionTarjeta},
+                                                                                    { "@TipoTarjeta", vep.tipoTarjeta}
+                                                                               });
+          
             return response;
         }
     }

@@ -14,7 +14,7 @@ using System.Reflection;
 namespace APICamaraDeComercio.Controllers
 {
     [ApiController]
-    [Authorize]
+    
     [Route("api/[controller]")]
     public class ClienteController : ControllerBase
     {
@@ -32,6 +32,7 @@ namespace APICamaraDeComercio.Controllers
         public IConfiguration Configuration { get; }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ComprobanteResponse>> PostCliente([FromBody] ClienteDTO comprobante)
         {
 
@@ -56,6 +57,7 @@ namespace APICamaraDeComercio.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("{identificador}")]
         public async Task<ActionResult<ComprobanteResponse>> GetClienteTransaccion(string identificador)
         {
@@ -74,7 +76,8 @@ namespace APICamaraDeComercio.Controllers
         }
 
         [HttpGet]
-        
+        [Authorize]
+
         public async Task<ActionResult<ClienteDTO>> GetCliente(string numeroDocumento)
         {
             ClienteDTO? cliente = await Repository.GetCliente(numeroDocumento);
@@ -84,6 +87,21 @@ namespace APICamaraDeComercio.Controllers
                 return Ok(cliente);
             }
             
+            return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Cliente inexistente", $"No se encontró cliente con el numero de documento {numeroDocumento}.", null)));
+
+        }
+
+        [HttpGet]
+        [Route("untoken")]
+        public async Task<ActionResult<ClienteDTO>> GetClienteSinToken(string numeroDocumento)
+        {
+            ClienteDTO? cliente = await Repository.GetCliente(numeroDocumento);
+
+            if (cliente is not null)
+            {
+                return Ok(cliente);
+            }
+
             return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Cliente inexistente", $"No se encontró cliente con el numero de documento {numeroDocumento}.", null)));
 
         }

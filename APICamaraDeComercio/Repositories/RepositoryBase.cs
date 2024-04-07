@@ -1,8 +1,10 @@
 ﻿using APICamaraDeComercio.Models.Response;
 using APICamaraDeComercio.Models.Response.Pdf;
 using APICamaraDeComercio.Services.Entities;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Data.SqlClient;
 using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Reflection;
@@ -22,6 +24,9 @@ namespace APICamaraDeComercio.Repositories
         public async Task<string> ExecuteSqlInsertToTablaSAR(List<FieldMap> fieldMapList, object resource, object valorIdentificador, string jobName)
         {
             string query = "";
+            Dictionary<string, object> fullFieldValues = new Dictionary<string, object>();
+            Dictionary<string, object> fieldValues = new Dictionary<string, object>();
+
 
             foreach (FieldMap fieldMap in fieldMapList)
             {
@@ -31,12 +36,20 @@ namespace APICamaraDeComercio.Repositories
                     foreach (var item in (dynamic)resource.GetType().GetProperty(fieldMap.ParentProperty).GetValue(resource, null))
                     {
                         index++;
-                        query += ArmoQueryInsertTablaSAR(fieldMap, item, valorIdentificador, index) + ";";
+                        query += ArmoQueryInsertTablaSAR(fieldMap, item, valorIdentificador, index, out fieldValues,resource) + ";";
+                        foreach (var fieldValue in fieldValues)
+                        {
+                            fullFieldValues.Add(fieldValue.Key, fieldValue.Value);
+                        }
                     }
                 }
                 else
                 {
-                    query += ArmoQueryInsertTablaSAR(fieldMap, resource, valorIdentificador,0) + ";";
+                    query += ArmoQueryInsertTablaSAR(fieldMap, resource, valorIdentificador,0, out fieldValues, null) + ";";
+                    foreach (var fieldValue in fieldValues)
+                    {
+                        fullFieldValues.Add(fieldValue.Key, fieldValue.Value);
+                    }
                 }
             }
             
@@ -45,9 +58,16 @@ namespace APICamaraDeComercio.Repositories
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    await connection.OpenAsync();
+                    
                     try
                     {
+                        foreach (var item in fullFieldValues)
+                        {
+                            command.Parameters.AddWithValue(item.Key.ToString(), item.Value is null?DBNull.Value: item.Value);
+
+                        }
+                        await connection.OpenAsync();
+
                         await command.ExecuteNonQueryAsync();
 
                         await InsertaCwJmSchedules(jobName);
@@ -87,9 +107,11 @@ namespace APICamaraDeComercio.Repositories
             }
         }
 
-        private string ArmoQueryInsertTablaSAR(FieldMap fieldMap, object resource, object valorIdentificador, int index)
+        private string ArmoQueryInsertTablaSAR(FieldMap fieldMap, object resource, object valorIdentificador, int index
+            , out Dictionary<string, object> fieldValues, object? parentResource = null)
         {
-           
+            fieldValues = new Dictionary<string, object>();
+
             Type typeComprobante = resource.GetType();
 
             string query = "INSERT INTO [dbo].[" + fieldMap.Table + "] (";
@@ -99,71 +121,85 @@ namespace APICamaraDeComercio.Repositories
                 query = query + item.Field + ",";
             }
 
-            query = query.Remove(query.Length - 1, 1) + ") ( SELECT ";
+            query = query.Remove(query.Length - 1, 1) + ") VALUES ( ";
 
             foreach (var item in fieldMap.Fields)
             {
-                query += ResuelvoField(item, resource, valorIdentificador, index) + ",";
+               
+                //query += ResuelvoField(item, resource, valorIdentificador, index, parentResource) + ",";
+                if (item.FixedValue!=null)
+                {
+                    query += $"{FormatStringSql(item.FixedValue)},";
+                }
+                else
+                {
+                    fieldValues.Add($"@{item.Field}_{index.ToString()}", ResuelvoField(item, resource, valorIdentificador, index, parentResource));
+                    query += $"@{item.Field}_{index.ToString()},";
+                }
             }
             query = query.Remove(query.Length - 1, 1) + ");";
-
+            
             return query;
-
-
         }
 
-        private string ResuelvoField(FieldValue item, object resource, object valorIdentificador, int index)
+        private  object ResuelvoField(FieldValue item, object resource, object valorIdentificador, int index, object? parentResource = null)
         {
             
             if (item.PropertyName == "identificador")
             {
-                return (string)FormatStringSql(valorIdentificador);
+                return valorIdentificador;
             }
 
             if (item.PropertyName == "item")
             {
-                return index.ToString();
+                return index;
             }
             if (item.PropertyName != null)
             {
-                object value = resource.GetType()
+                return resource.GetType()
                                 .GetProperty(item.PropertyName)
                                 .GetValue(resource, null);
 
-                if (value != null)
-                {
-                    if (value is string )
-                    {
-                        return FormatStringSql(value);
-                    }
                 
-                    decimal number;
-                    if (decimal.TryParse(Convert.ToString(value), out number))
-                    {
-                        return Convert.ToString(value);
-                    }
-
-                
-                }
             }
             
             if (item.FixedValue!=null)
             {
-                return FormatStringSql(item.FixedValue);
+                return item.FixedValue;
             }
 
-            if (item.Function!=null)
+            if (item.Function != null)
             {
-                string script = $"(SELECT dbo.{item.Function.Name} ('";
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
 
-                foreach (var parameter in item.Function.Parameters)
-                {
-                    script += $"{resource.GetType().GetProperty(parameter.PropertyName).GetValue(resource, null)},";
+                if (item.Function.Parameters.Count > 0)
+                {  
+                    
+                    foreach (var parameter in item.Function.Parameters)
+                    {
+                        if (parameter.FixedValue != null)
+                        {
+                         
+                            parameters.Add(parameter.Name, parameter.FixedValue);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                parameters.Add(parameter.Name, resource.GetType().GetProperty(parameter.PropertyName).GetValue(resource, null));
+                            }
+                            catch (Exception)
+                            {
+                                parameters.Add(parameter.Name, parentResource.GetType().GetProperty(parameter.PropertyName).GetValue(parentResource, null));
+                            }
+                        }
+                    }
+                    
                 }
-                script = script.Remove(script.Length - 1, 1) + "') )";
-                return script;
-            }
+                return ExecuteFunction(item.Function.Name, parameters);
+               
 
+            }
             return FormatStringSql("");
         }
 
@@ -435,6 +471,41 @@ namespace APICamaraDeComercio.Repositories
 
             return respuesta;
         }
+        private  object? ExecuteFunction (string sqlCommand, Dictionary<string, object> parameters)
+        {
 
+            object? result = null;
+
+            using (SqlConnection sql = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
+            {
+                using (SqlCommand cmd = new SqlCommand(sqlCommand, sql))
+                {
+
+                    cmd.CommandText = $"SELECT dbo.{sqlCommand} (";                    
+                    foreach (var item in parameters)
+                    {
+                        cmd.CommandText += $"@{item.Key},";
+                        SqlParameter parameter = new SqlParameter(item.Key, item.Value is null? DBNull.Value:item.Value);
+                        cmd.Parameters.Add(parameter);
+                    }
+                    cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 1, 1);
+                    cmd.CommandText += ") AS result";
+
+                     sql.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result = reader["result"];
+                        }
+                    }
+                }
+            }
+
+            return result;
+
+        }
     }
+    
 }

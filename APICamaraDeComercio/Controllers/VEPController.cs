@@ -31,11 +31,11 @@ namespace APICamaraDeComercio.Controllers
         public VEPRepository Repository { get; }
         public IConfiguration Configuration { get; }
 
-     
+
 
         [HttpGet]
-        
-        public async Task<ActionResult<List<VEPDTO>>> GetVEP( string? fechaDesde, string? fechaHasta)
+
+        public async Task<ActionResult<List<VEPDTO>>> GetVEP(string? fechaDesde, string? fechaHasta)
         {
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -49,7 +49,7 @@ namespace APICamaraDeComercio.Controllers
                 {
                     numeroDocumento = "";
                 }
-                List<VEPDTO?> VEP = await Repository.GetVEP(numeroDocumento, fechaDesde, fechaHasta, businessUnit);
+                List<VEPDTO?> VEP = await Repository.GetVEPList(numeroDocumento, fechaDesde, fechaHasta, businessUnit);
 
                 if (VEP.Count() > 0)
                 {
@@ -99,6 +99,36 @@ namespace APICamaraDeComercio.Controllers
                 return Ok(new VEPResponse(response));
             }
             return Unauthorized();
+        }
+
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<ActionResult<VEPResponse>> PatchVEP([FromBody] VEPDTO vep, int id)
+        {
+            VEPDTO response = new VEPDTO();
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            vep.numeroVEP = id;
+
+            if (identity != null)
+            {
+                IEnumerable<Claim> claims = identity.Claims;
+                string? numeroDocumentoToken = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                VEPDTO? vepRecuperado = await Repository.GetVEP(id);
+                if (vepRecuperado is null)
+                {
+                    return BadRequest(new VEPResponse(new VEPDTO("El VEP no existe.")));
+                }
+
+                if (numeroDocumentoToken != vepRecuperado.numeroDocumento)
+                {
+                    return BadRequest(new VEPResponse(new VEPDTO("El numero de documento del VEP a actualizar no coincide con el de las credenciales del usuario.")));
+                }
+            }
+
+            response = await Repository.PatchVEP(vep);
+
+            return Ok(new VEPResponse(response));
         }
     }
 }

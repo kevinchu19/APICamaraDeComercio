@@ -134,6 +134,10 @@
                   {
                     "Name": "NumeroDocumento",
                     "PropertyName": "numero_de_documento"
+                  },
+                  {
+                    "Name": "ListaDePrecios",
+                    "PropertyName": "lista_de_precios"
                   }
                 ]
 
