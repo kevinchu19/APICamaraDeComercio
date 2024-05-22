@@ -56,7 +56,7 @@ namespace APICamaraDeComercio.Controllers
         }
 
         [HttpGet]
-        [Route("{identificador}")]
+        [Route("transaccion/{identificador}")]
         public async Task<ActionResult<ComprobanteResponse>> GetContrato(string identificador)
         {
             ComprobanteResponse respuesta = await Repository.GetTransaccion(identificador,"SAR_CVMCTH");

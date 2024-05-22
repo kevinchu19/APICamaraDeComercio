@@ -23,6 +23,7 @@ builder.Services.AddScoped<DeudaRepository>();
 builder.Services.AddScoped<VEPRepository>();
 builder.Services.AddScoped<BilleteraRepository>();
 builder.Services.AddScoped<UsuarioRepository>();
+builder.Services.AddScoped<ContratoRepository>();
 
 //ApiKeyValidation
 builder.Services.AddTransient<IApiKeyValidation, ApiKeyValidation>();

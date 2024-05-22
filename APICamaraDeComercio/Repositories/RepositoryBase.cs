@@ -21,7 +21,7 @@ namespace APICamaraDeComercio.Repositories
 
         public IConfiguration Configuration { get; }
 
-        public async Task<string> ExecuteSqlInsertToTablaSAR(List<FieldMap> fieldMapList, object resource, object valorIdentificador, string jobName)
+        public virtual async Task<string> ExecuteSqlInsertToTablaSAR(List<FieldMap> fieldMapList, object resource, object valorIdentificador, string jobName)
         {
             string query = "";
             Dictionary<string, object> fullFieldValues = new Dictionary<string, object>();

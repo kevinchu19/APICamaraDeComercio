@@ -544,3 +544,4 @@ C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\De
 C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Debug\net6.0\APICamaraDeComercio.pdb
 C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Debug\net6.0\APICamaraDeComercio.genruntimeconfig.cache
 C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Debug\net6.0\ref\APICamaraDeComercio.dll
+C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\bin\Debug\net6.0\Services\FieldMapFiles\Contrato.json

@@ -1,4 +1,5 @@
 ﻿using APICamaraDeComercio.Models.Response;
+using APICamaraDeComercio.Services.Entities;
 using Microsoft.Data.SqlClient;
 
 namespace APICamaraDeComercio.Repositories
@@ -7,6 +8,31 @@ namespace APICamaraDeComercio.Repositories
     {
         public ContratoRepository(IConfiguration configuration) : base(configuration)
         {
+        }
+
+        
+        public override async Task<string> ExecuteSqlInsertToTablaSAR(List<FieldMap> fieldMapList, object resource, object valorIdentificador, string jobName)
+        {
+            string errorMessage = "";
+
+            errorMessage = await base.ExecuteSqlInsertToTablaSAR(fieldMapList, resource, valorIdentificador, jobName);
+
+            if (errorMessage=="")
+            {
+                try
+                {
+
+                    Alm_InsSAR_CVMCTDySAR_CVMCTVFromSAR_CVMCTI((string)valorIdentificador);
+
+                }
+                catch (Exception ex)
+                {
+
+                    return ex.Message + ex.StackTrace;
+                }
+            }
+
+            return errorMessage;
         }
 
         public override async Task<ComprobanteResponse> GetTransaccion(string identificador, string table)
@@ -76,5 +102,22 @@ namespace APICamaraDeComercio.Repositories
             }
         }
 
+
+        private async Task Alm_InsSAR_CVMCTDySAR_CVMCTVFromSAR_CVMCTI(string identificador)
+        {
+            using (SqlConnection sql = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
+            {
+                using (SqlCommand cmd = new SqlCommand("Alm_InsSAR_CVMCTDySAR_CVMCTVFromSAR_CVMCTI", sql))
+                {
+
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Identificador", identificador));
+
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    
+                }
+            }
+        }
     }
 }
