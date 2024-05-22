@@ -37,7 +37,7 @@ namespace APICamaraDeComercio.Repositories
 
         public override async Task<ComprobanteResponse> GetTransaccion(string identificador, string table)
         {
-            string query = $"SELECT * FROM {table} WHERE {table}_IDENTI = '{identificador}'";
+            string query = $"SELECT CONVERT(VARCHAR,SAR_CVMCTH_NROEXT) NROEXT,* FROM {table} WHERE {table}_IDENTI = '{identificador}'";
 
             using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnectionString")))
             {
@@ -69,7 +69,7 @@ namespace APICamaraDeComercio.Repositories
                                                                                         codigocomprobante = ((string)reader[$"{table}_CODEMP"] + "|" +
                                                                                                             (string)reader[$"{table}_CODCON"] +"|" +
                                                                                                             (string)reader[$"{table}_NROCON"] + "|" +
-                                                                                                            (string)reader[$"{table}_NROEXT"])
+                                                                                                            (string)reader["NROEXT"])
                                                                                     }));
                                         case "N":
                                             return new ComprobanteResponse(new ComprobanteDTO(identificador,
