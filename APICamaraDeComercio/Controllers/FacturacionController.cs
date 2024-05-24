@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace APICamaraDeComercio.Controllers
 {
@@ -34,11 +35,21 @@ namespace APICamaraDeComercio.Controllers
         public async Task<ActionResult<ComprobanteResponse>> PostFacturacion([FromBody] FacturacionDTO comprobante)
         {
 
+
+
+
             FieldMapper mapping = new FieldMapper();
             if (!mapping.LoadMappingFile(AppDomain.CurrentDomain.BaseDirectory + @"\Services\FieldMapFiles\Facturacion.json"))
             { return BadRequest(new ComprobanteDTO((string?)comprobante.GetType()
                 .GetProperty("identificador")
                 .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoint", null)); };
+
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                comprobante.usuarioApi = identity.Name;
+            }
 
             string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap,
                                                                               comprobante,

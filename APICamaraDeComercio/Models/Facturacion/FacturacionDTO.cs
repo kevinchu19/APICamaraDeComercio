@@ -18,6 +18,8 @@ namespace APICamaraDeComercio.Models.Facturacion
         [MaxLength(6)]
         public string? lista_de_precios { get; set; } = null;
 
+        public string? usuarioApi { get; set; } = "";
+
         public List<FacturacionItemsDTO> items_a_facturar { get; set; }
 
     }
