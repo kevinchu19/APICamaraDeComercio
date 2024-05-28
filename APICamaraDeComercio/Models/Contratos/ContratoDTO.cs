@@ -10,6 +10,7 @@
         public string fechaInicioFacturacion { get; set; }
         public string fechaFinFacturacion { get; set; }
         public string listaDePrecios { get; set; }
+        public string carrera { get; set; }
         public List<ContratoItemsDTO> items { get; set; }
 
     }
@@ -22,7 +23,7 @@
         public string? textoAdicional { get; set; }
         public string fechaVigenciaDesde { get; set; }
         public string fechaVigenciaHasta { get; set; }
-        public string carrera { get; set; }
+        
 
     }
 }

@@ -91,6 +91,8 @@ namespace APICamaraDeComercio.Controllers
 
                 response = await Repository.PostVEP(vep);
 
+
+
                 if (response.mensaje != null)
                 {
                     return BadRequest(new VEPResponse(response));

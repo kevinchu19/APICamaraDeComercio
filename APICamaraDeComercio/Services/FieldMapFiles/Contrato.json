@@ -157,7 +157,7 @@
             "FixedValue": "CONTRATO",
             "Function": null
           },
-          
+
           {
             "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
             "Field": "SAR_CVMCTH_FACDES",
@@ -202,6 +202,14 @@
             "Function": null
 
 
+          },
+
+          {
+            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
+            "Field": "USR_CVMCTH_CARRER",
+            "PropertyName": "carrera",
+            "FixedValue": null,
+            "Function": null
           },
           {
             "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
@@ -288,13 +296,6 @@
             "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
             "Field": "SAR_CVMCTI_TEXADI",
             "PropertyName": "textoAdicional",
-            "FixedValue": null,
-            "Function": null
-          },
-          {
-            "$type": "APICamaraDeComercio.Services.Entities.FieldValue, APICamaraDeComercio",
-            "Field": "USR_CVMCTI_CARRER",
-            "PropertyName": "carrera",
             "FixedValue": null,
             "Function": null
           },

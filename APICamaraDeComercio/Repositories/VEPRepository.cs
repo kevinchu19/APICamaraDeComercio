@@ -65,6 +65,19 @@ namespace APICamaraDeComercio.Repositories
                                                                                     }));
                     }
                 }
+
+                if (vep.medioDePago == "Billetera") //Si es billetera lo paso a pagado automaticamente
+                {
+                    await ExecuteStoredProcedure<VEPDTO?>("Alm_PatchVEPForAPI",
+                                                                              new Dictionary<string, object>{
+                                                                                   { "@NroVEP", response.numeroVEP},
+                                                                                   { "@NuevoEstado", "Pagado" },
+                                                                                   { "@FechaPago", response.fecha},
+                                                                                   { "@CodigoAutorizacion", ""},
+                                                                                   { "@TipoTarjeta", ""}
+                                                                              });
+                    response.estado = "Pagado";
+                }
             
 
             }
