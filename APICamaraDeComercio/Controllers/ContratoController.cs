@@ -55,6 +55,34 @@ namespace APICamaraDeComercio.Controllers
             return Ok(new ComprobanteResponse(new ComprobanteDTO(comprobante.identificador, "200", "OK", errorMessage, null)));
         }
 
+        [HttpPost]
+        [Route("baja")]
+        public async Task<ActionResult<ComprobanteResponse>> PostBajaContrato([FromBody] ContratoBajaDTO comprobante)
+        {
+
+            FieldMapper mapping = new FieldMapper();
+            if (!mapping.LoadMappingFile(AppDomain.CurrentDomain.BaseDirectory + @"\Services\FieldMapFiles\BajaContrato.json"))
+            {
+                return BadRequest(new ComprobanteDTO((string?)comprobante.GetType()
+                .GetProperty("identificador")
+                .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoint", null));
+            };
+
+            string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap,
+                                                                              comprobante,
+                                                                              comprobante.identificador,
+                                                                              Configuration["Contrato:JobName"]);
+            if (errorMessage != "")
+            {
+                return BadRequest(new ComprobanteResponse(new ComprobanteDTO(comprobante.identificador, "400", "Bad Request", errorMessage, null)));
+            };
+
+
+
+            return Ok(new ComprobanteResponse(new ComprobanteDTO(comprobante.identificador, "200", "OK", errorMessage, null)));
+        }
+
+
         [HttpGet]
         [Route("transaccion/{identificador}")]
         public async Task<ActionResult<ComprobanteResponse>> GetContrato(string identificador)
