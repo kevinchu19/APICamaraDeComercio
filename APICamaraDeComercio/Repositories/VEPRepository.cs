@@ -10,17 +10,23 @@ namespace APICamaraDeComercio.Repositories
         }
 
 
-        public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit)
+        public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit, string? estado)
         {
             List<VEPDTO?> response = new List<VEPDTO?> ();    
+
+            if (estado == null) { estado = ""; };
 
             response = await ExecuteStoredProcedureList<VEPDTO?>("ALM_GetVEPListForAPI",
                                                                            new Dictionary<string, object>{
                                                                                 { "@NumeroDocumento", numeroDocumento },
                                                                                 { "@FechaDesde", fechaDesde is null ? DBNull.Value : fechaDesde},
                                                                                 { "@FechaHasta", fechaHasta is null ? DBNull.Value : fechaHasta},
-                                                                                { "@CodigoImputacion", bussinessUnit}
+                                                                                { "@CodigoImputacion", bussinessUnit},
+                                                                                { "@Estado", estado}
                                                                            });
+            
+            
+
             foreach (VEPDTO? item in response)
             {
                 item.comprobantes = await ExecuteStoredProcedureList<VEPComprobanteDTO?>("ALM_GetComprobantesVEPForAPI",
