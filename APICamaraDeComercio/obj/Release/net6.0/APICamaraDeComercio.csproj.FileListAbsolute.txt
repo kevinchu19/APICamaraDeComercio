@@ -820,3 +820,5 @@ C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Re
 C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\APICamaraDeComercio.csproj.CopyComplete
 C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\APICamaraDeComercio.genruntimeconfig.cache
 C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\obj\Release\net6.0\ref\APICamaraDeComercio.dll
+C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\bin\Release\net6.0\Services\FieldMapFiles\Contrato.json
+C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\bin\Release\net6.0\Services\FieldMapFiles\BajaContrato.json

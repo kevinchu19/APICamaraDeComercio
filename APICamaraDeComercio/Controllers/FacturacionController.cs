@@ -2,17 +2,18 @@ using APICamaraDeComercio.Models.Facturacion;
 using APICamaraDeComercio.Models.Response;
 using APICamaraDeComercio.Repositories;
 using APICamaraDeComercio.Services;
+using APICamaraDeComercio.Services.ApiKey;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace APICamaraDeComercio.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     public class FacturacionController : ControllerBase
     {
@@ -30,14 +31,25 @@ namespace APICamaraDeComercio.Controllers
         public IConfiguration Configuration { get; }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ComprobanteResponse>> PostFacturacion([FromBody] FacturacionDTO comprobante)
         {
+
+
+
 
             FieldMapper mapping = new FieldMapper();
             if (!mapping.LoadMappingFile(AppDomain.CurrentDomain.BaseDirectory + @"\Services\FieldMapFiles\Facturacion.json"))
             { return BadRequest(new ComprobanteDTO((string?)comprobante.GetType()
                 .GetProperty("identificador")
                 .GetValue(comprobante), "400", "Error de configuracion", "No se encontro el archivo de configuracion del endpoint", null)); };
+
+
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                comprobante.usuarioApi = identity.Name;
+            }
 
             string errorMessage = await Repository.ExecuteSqlInsertToTablaSAR(mapping.fieldMap,
                                                                               comprobante,
@@ -54,6 +66,7 @@ namespace APICamaraDeComercio.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("{identificador}")]
         public async Task<ActionResult<ComprobanteResponse>> GetFacturacion(string identificador)
         {
@@ -70,5 +83,23 @@ namespace APICamaraDeComercio.Controllers
             }
 
         }
+
+        [HttpPost]
+        [ApiKey]
+        [Route("untoken")]
+        public async Task<ActionResult<ComprobanteResponse>> PostFacturacionUntoken([FromBody] FacturacionDTO comprobante)
+        {
+            return await PostFacturacion(comprobante);
+        }
+
+        [HttpGet]
+        [ApiKey]
+        [Route("untoken/{identificador}")]
+        public async Task<ActionResult<ComprobanteResponse>> GetFacturacionUntoken(string identificador)
+        {
+            return await GetFacturacion(identificador);
+
+        }
+
     }
 }

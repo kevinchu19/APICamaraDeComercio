@@ -51,6 +51,9 @@ namespace APICamaraDeComercio.Models.Clientes
         public string? tipoDeDocumento4 { get; set; }
         [MaxLength(11)]
         public string? numeroDeDocumento4 { get; set; }
+
+        [MaxLength(11)]
+        public string? numeroDeDocumento_subcuenta { get; set; }
         [MaxLength(3)]
         public string? jurisdiccionFiscal { get; set; }
         [MaxLength(6)]

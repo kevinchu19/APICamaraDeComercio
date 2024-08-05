@@ -11,11 +11,12 @@ using System.Reflection;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis.FlowAnalysis;
+using APICamaraDeComercio.Services.ApiKey;
 
 namespace APICamaraDeComercio.Controllers
 {
     [ApiController]
-    [Authorize]
+    
     [Route("api/[controller]")]
     public class ComprobanteController : ControllerBase
     {
@@ -32,6 +33,7 @@ namespace APICamaraDeComercio.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("file")]
         public async Task<ActionResult<PdfResponse>> GetFiles(string codigoComprobante, string numeroComprobante, bool pidePdf = true)
         {
@@ -76,6 +78,15 @@ namespace APICamaraDeComercio.Controllers
             result.pdf = null;
 
             return Ok(new PdfResponse(result));
+        }
+
+        [HttpGet]
+        [ApiKey]
+        [Route("file/untoken")]
+        public async Task<ActionResult<PdfResponse>> GetFilesUntoken(string codigoComprobante, string numeroComprobante, bool pidePdf = true)
+        {
+
+            return await GetFiles(codigoComprobante, numeroComprobante, pidePdf);
         }
 
     }

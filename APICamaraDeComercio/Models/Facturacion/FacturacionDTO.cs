@@ -17,6 +17,9 @@ namespace APICamaraDeComercio.Models.Facturacion
         public string? numero_de_documento_generador { get; set; }
         [MaxLength(6)]
         public string? lista_de_precios { get; set; } = null;
+        public string? carrera { get; set; } = null;
+
+        public string? usuarioApi { get; set; } = "";
 
         public List<FacturacionItemsDTO> items_a_facturar { get; set; }
 

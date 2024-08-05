@@ -1,7 +1,9 @@
 
 
 using APICamaraDeComercio.Exceptions;
+using APICamaraDeComercio.Models.ApiKey;
 using APICamaraDeComercio.Repositories;
+using APICamaraDeComercio.Services.ApiKey;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +23,12 @@ builder.Services.AddScoped<DeudaRepository>();
 builder.Services.AddScoped<VEPRepository>();
 builder.Services.AddScoped<BilleteraRepository>();
 builder.Services.AddScoped<UsuarioRepository>();
+builder.Services.AddScoped<ContratoRepository>();
+
+//ApiKeyValidation
+builder.Services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
+builder.Services.AddScoped<ApiKeyAuthFilter>();
+builder.Services.AddHttpContextAccessor();
 
 //Filtro de Excepcion
 builder.Services.AddMvc(Options =>
