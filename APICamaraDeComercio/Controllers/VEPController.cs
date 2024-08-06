@@ -35,7 +35,7 @@ namespace APICamaraDeComercio.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<List<VEPDTO>>> GetVEP(string? fechaDesde, string? fechaHasta)
+        public async Task<ActionResult<List<VEPDTO>>> GetVEP(string? fechaDesde, string? fechaHasta, string? estado)
         {
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -49,7 +49,7 @@ namespace APICamaraDeComercio.Controllers
                 {
                     numeroDocumento = "";
                 }
-                List<VEPDTO?> VEP = await Repository.GetVEPList(numeroDocumento, fechaDesde, fechaHasta, businessUnit);
+                List<VEPDTO?> VEP = await Repository.GetVEPList(numeroDocumento, fechaDesde, fechaHasta, businessUnit, estado);
 
                 if (VEP.Count() > 0)
                 {

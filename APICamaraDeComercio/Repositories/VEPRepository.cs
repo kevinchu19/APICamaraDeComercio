@@ -15,7 +15,7 @@ namespace APICamaraDeComercio.Repositories
         {
             List<VEPDTO?> response = new List<VEPDTO?> ();    
 
-            if (estado == null) {estado ="" }
+            if (estado == null) { estado = ""; };
 
             response = await ExecuteStoredProcedureList<VEPDTO?>("ALM_GetVEPListForAPI",
                                                                            new Dictionary<string, object>{
