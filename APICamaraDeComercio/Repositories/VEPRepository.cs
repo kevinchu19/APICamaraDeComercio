@@ -11,11 +11,8 @@ namespace APICamaraDeComercio.Repositories
         }
 
 
-<<<<<<< HEAD
-        public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit, string? estado)
-=======
         public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit, string estado)
->>>>>>> staging
+
         {
             List<VEPDTO?> response = new List<VEPDTO?> ();    
 
@@ -29,10 +26,7 @@ namespace APICamaraDeComercio.Repositories
                                                                                 { "@CodigoImputacion", bussinessUnit},
                                                                                 { "@Estado", estado}
                                                                            });
-<<<<<<< HEAD
-            
-            
-=======
+
 
             var vepItems = await ExecuteStoredProcedureList<VEPComprobanteDTO?>("ALM_GetComprobantesVEPForAPI",
                                                                            new Dictionary<string, object>{
@@ -44,8 +38,6 @@ namespace APICamaraDeComercio.Repositories
                                                                            });
 
 
-
->>>>>>> staging
 
             foreach (VEPDTO? item in response)
             {
