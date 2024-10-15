@@ -1,5 +1,6 @@
 ﻿using APICamaraDeComercio.Models.Response.VEP;
 using Azure;
+using NuGet.Packaging;
 
 namespace APICamaraDeComercio.Repositories
 {
@@ -10,7 +11,8 @@ namespace APICamaraDeComercio.Repositories
         }
 
 
-        public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit, string? estado)
+        public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit, string estado)
+
         {
             List<VEPDTO?> response = new List<VEPDTO?> ();    
 
@@ -24,16 +26,22 @@ namespace APICamaraDeComercio.Repositories
                                                                                 { "@CodigoImputacion", bussinessUnit},
                                                                                 { "@Estado", estado}
                                                                            });
-            
-            
+
+
+            var vepItems = await ExecuteStoredProcedureList<VEPComprobanteDTO?>("ALM_GetComprobantesVEPForAPI",
+                                                                           new Dictionary<string, object>{
+                                                                                { "@NumeroDocumento", numeroDocumento },
+                                                                                { "@FechaDesde", fechaDesde is null ? DBNull.Value : fechaDesde},
+                                                                                { "@FechaHasta", fechaHasta is null ? DBNull.Value : fechaHasta},
+                                                                                { "@CodigoImputacion", bussinessUnit},
+                                                                                { "@Estado", estado}
+                                                                           });
+
+
 
             foreach (VEPDTO? item in response)
             {
-                item.comprobantes = await ExecuteStoredProcedureList<VEPComprobanteDTO?>("ALM_GetComprobantesVEPForAPI",
-                      new Dictionary<string, object>{
-                            { "@NumeroVEP", item.numeroVEP},
-                            { "@NumeroDocumento", numeroDocumento}
-                         });
+                item.comprobantes.AddRange(vepItems.Where(c => c.nrovep == item.numeroVEP));
             }
 
             return response;
