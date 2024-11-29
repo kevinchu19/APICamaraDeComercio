@@ -35,7 +35,7 @@ namespace APICamaraDeComercio.Controllers
 
         [HttpGet]
         
-        public async Task<ActionResult<List<DeudaDTO>>> GetDeuda()
+        public async Task<ActionResult<List<DeudaDTO>>> GetDeuda(string? fechaDesde, string? fechaHasta)
         {
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -50,7 +50,7 @@ namespace APICamaraDeComercio.Controllers
                 {
                     numeroDocumento = "";
                 }
-                List<DeudaDTO?> Deuda = await Repository.GetDeuda(numeroDocumento, businessUnit);
+                List<DeudaDTO?> Deuda = await Repository.GetDeuda(numeroDocumento, businessUnit, fechaDesde, fechaHasta);
 
                 if (Deuda.Count() > 0)
                 {

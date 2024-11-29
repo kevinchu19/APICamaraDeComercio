@@ -44,5 +44,14 @@ namespace APICamaraDeComercio.Repositories
 
         }
 
+        public async Task<ValidateUsuarioDTO?> GetValidateUsuario(string userId)
+        {
+            return await ExecuteStoredProcedure<ValidateUsuarioDTO?>("Alm_GetValidateUsuarioForAPI",
+                                                                        new Dictionary<string, object>{
+                                                                                { "@Userid", userId }
+                                                                        });
+
+        }
+
     }
 }

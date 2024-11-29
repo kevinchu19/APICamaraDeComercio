@@ -12,12 +12,14 @@ namespace APICamaraDeComercio.Repositories
         }
 
 
-        public async Task<List<DeudaDTO?>> GetDeuda (string numeroDocumento, string businessUnit)
+        public async Task<List<DeudaDTO?>> GetDeuda (string numeroDocumento, string businessUnit, string ?fechaDesde, string? fechaHasta)
         {
             return await ExecuteStoredProcedureList<DeudaDTO?>("ALM_GetDeudaForAPI",
                                                                            new Dictionary<string, object>{
                                                                                 { "@NumeroDocumentoGenerador", numeroDocumento },
-                                                                                { "@CodigoImputacion", businessUnit}
+                                                                                { "@CodigoImputacion", businessUnit},
+                                                                                { "@FechaDesde", fechaDesde is null ? DBNull.Value : fechaDesde},
+                                                                                { "@FechaHasta", fechaHasta is null ? DBNull.Value : fechaHasta}
                                                                            });
 
         }
