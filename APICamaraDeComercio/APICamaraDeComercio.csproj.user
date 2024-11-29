@@ -4,10 +4,6 @@
     <Controller_SelectedScaffolderID>MinimalApiScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
     <WebStackScaffolding_ControllerDialogWidth>650</WebStackScaffolding_ControllerDialogWidth>
-<<<<<<< HEAD
-    <NameOfLastUsedPublishProfile>C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\Properties\PublishProfiles\FolderProfile2.pubxml</NameOfLastUsedPublishProfile>
-=======
     <NameOfLastUsedPublishProfile>C:\Users\ktchubinsky\source\repos\APICamaraDeComercio\APICamaraDeComercio\Properties\PublishProfiles\FolderProfile4.pubxml</NameOfLastUsedPublishProfile>
->>>>>>> development
   </PropertyGroup>
 </Project>

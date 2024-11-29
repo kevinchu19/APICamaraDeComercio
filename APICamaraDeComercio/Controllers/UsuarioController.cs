@@ -100,5 +100,28 @@ namespace APICamaraDeComercio.Controllers
             return Unauthorized();
         }
 
+
+        [HttpGet]
+        [Route("validate/{usuario}")]
+        public async Task<ActionResult<ValidateUsuarioResponse>> ValidateUsuario(string usuario)
+        {
+           
+            ValidateUsuarioDTO? response = await Repository.GetValidateUsuario(usuario);
+
+            if (response is not null)
+            {
+                return Ok(new ValidateUsuarioResponse(response));
+            }
+            else
+            {
+                response = new ValidateUsuarioDTO();
+                response.mensaje = "El usuario no existe";
+                return NotFound(new ValidateUsuarioResponse(response));
+            }
+         
+            return Ok();
+        }
+
+
     }
 }
