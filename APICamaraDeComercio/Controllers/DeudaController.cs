@@ -43,6 +43,7 @@ namespace APICamaraDeComercio.Controllers
             {
                 IEnumerable<Claim> claims = identity.Claims;
                 string? numeroDocumento = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string? tipoDocumento = claims.FirstOrDefault(c => c.Type == "tipoDocumento").Value;
                 string businessUnit = claims.FirstOrDefault(c => c.Type == "businessUnit").Value;
 
 
@@ -50,7 +51,7 @@ namespace APICamaraDeComercio.Controllers
                 {
                     numeroDocumento = "";
                 }
-                List<DeudaDTO?> Deuda = await Repository.GetDeuda(numeroDocumento, businessUnit, fechaDesde, fechaHasta);
+                List<DeudaDTO?> Deuda = await Repository.GetDeuda(numeroDocumento, businessUnit, fechaDesde, fechaHasta, tipoDocumento);
 
                 if (Deuda.Count() > 0)
                 {

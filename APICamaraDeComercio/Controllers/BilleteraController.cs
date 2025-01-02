@@ -42,20 +42,21 @@ namespace APICamaraDeComercio.Controllers
             {
                 IEnumerable<Claim> claims = identity.Claims;
                 string? numeroDocumento = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string? tipoDocumento = claims.FirstOrDefault(c => c.Type == "tipoDocumento").Value;
                 string businessUnit = claims.FirstOrDefault(c => c.Type == "businessUnit").Value;
 
                 if (numeroDocumento is null)
                 {
                     numeroDocumento = "";
                 }
-                List<BilleteraDTO?> Billetera = await Repository.GetBilletera(numeroDocumento, fechaDesde, fechaHasta, businessUnit);
+                List<BilleteraDTO?> Billetera = await Repository.GetBilletera(numeroDocumento, fechaDesde, fechaHasta, businessUnit, tipoDocumento);
 
                 if (Billetera.Count() > 0)
                 {
                     return Ok(Billetera);
                 }
 
-                return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Billetera inexistente", $"No se encontraron registros de billetera para el numero de documento {numeroDocumento}.", null)));
+                return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Billetera inexistente", $"No se encontraron registros de billetera para el documento tipo {tipoDocumento} - número {numeroDocumento}.", null)));
             }
             return Unauthorized();
         }
@@ -69,13 +70,14 @@ namespace APICamaraDeComercio.Controllers
             {
                 IEnumerable<Claim> claims = identity.Claims;
                 string? numeroDocumento = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string? tipoDocumento = claims.FirstOrDefault(c => c.Type == "tipoDocumento").Value;
                 string businessUnit = claims.FirstOrDefault(c => c.Type == "businessUnit").Value;
 
                 if (numeroDocumento is null)
                 {
                     numeroDocumento = "";
                 }
-                SaldoBilleteraDTO? Billetera = await Repository.GetSaldoBilletera(numeroDocumento, businessUnit);
+                SaldoBilleteraDTO? Billetera = await Repository.GetSaldoBilletera(numeroDocumento, businessUnit, tipoDocumento);
 
                 return Ok(Billetera);
             }

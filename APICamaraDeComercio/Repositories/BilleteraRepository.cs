@@ -22,7 +22,7 @@ namespace APICamaraDeComercio.Repositories
             return response;
 
         }
-        public async Task<List<BilleteraDTO?>> GetBilletera (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit)
+        public async Task<List<BilleteraDTO?>> GetBilletera (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit, string  tipoDocumento = "")
         {
             List<BilleteraDTO?> response = new List<BilleteraDTO?> ();    
 
@@ -31,21 +31,23 @@ namespace APICamaraDeComercio.Repositories
                                                                                 { "@NumeroDocumento", numeroDocumento },
                                                                                 { "@FechaDesde", fechaDesde is null ? DBNull.Value : fechaDesde},
                                                                                 { "@FechaHasta", fechaHasta is null ? DBNull.Value : fechaHasta},
-                                                                                { "@CodigoImputacion", bussinessUnit}
+                                                                                { "@CodigoImputacion", bussinessUnit},
+                                                                                { "@TipoDocumento", tipoDocumento}
                                                                            });
             
             return response;
         }
 
 
-        public async Task<SaldoBilleteraDTO?> GetSaldoBilletera(string numeroDocumento, string bussinessUnit)
+        public async Task<SaldoBilleteraDTO?> GetSaldoBilletera(string numeroDocumento, string bussinessUnit, string tipoDocumento="")
         {
             
 
             return await ExecuteStoredProcedure<SaldoBilleteraDTO?>("ALM_GetSaldoBilleteraForAPI",
                                                                            new Dictionary<string, object>{
                                                                                 { "@NumeroDocumento", numeroDocumento },
-                                                                                { "@CodigoImputacion", bussinessUnit}
+                                                                                { "@CodigoImputacion", bussinessUnit},
+                                                                                { "@TipoDocumento", tipoDocumento}
                                                                            });
 
         }

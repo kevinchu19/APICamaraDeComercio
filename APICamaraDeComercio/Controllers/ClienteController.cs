@@ -79,25 +79,25 @@ namespace APICamaraDeComercio.Controllers
         [HttpGet]
         [Authorize]
 
-        public async Task<ActionResult<ClienteDTO>> GetCliente(string numeroDocumento)
+        public async Task<ActionResult<ClienteDTO>> GetCliente(string numeroDocumento, string? tipoDocumento)
         {
-            ClienteDTO? cliente = await Repository.GetCliente(numeroDocumento);
+            ClienteDTO? cliente = await Repository.GetCliente(numeroDocumento, tipoDocumento);
 
             if (cliente is not null)
             {
                 return Ok(cliente);
             }
             
-            return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Cliente inexistente", $"No se encontró cliente con el numero de documento {numeroDocumento}.", null)));
+            return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "Cliente inexistente", $"No se encontró cliente con el documento tipo {tipoDocumento} - numero {numeroDocumento}.", null)));
 
         }
 
         [HttpGet]
         [ApiKey]
         [Route("untoken")]
-        public async Task<ActionResult<ClienteDTO>> GetClienteSinToken(string numeroDocumento)
+        public async Task<ActionResult<ClienteDTO>> GetClienteSinToken(string numeroDocumento, string? tipoDocumento)
         {
-            return await GetCliente(numeroDocumento);
+            return await GetCliente(numeroDocumento, tipoDocumento);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace APICamaraDeComercio.Repositories
         }
 
 
-        public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit, string estado)
+        public async Task<List<VEPDTO?>> GetVEPList (string numeroDocumento, string? fechaDesde, string? fechaHasta, string bussinessUnit, string estado, string tipoDocumento)
 
         {
             List<VEPDTO?> response = new List<VEPDTO?> ();    
@@ -24,7 +24,8 @@ namespace APICamaraDeComercio.Repositories
                                                                                 { "@FechaDesde", fechaDesde is null ? DBNull.Value : fechaDesde},
                                                                                 { "@FechaHasta", fechaHasta is null ? DBNull.Value : fechaHasta},
                                                                                 { "@CodigoImputacion", bussinessUnit},
-                                                                                { "@Estado", estado}
+                                                                                { "@Estado", estado},
+                                                                                { "@TipoDocumento", tipoDocumento}
                                                                            });
 
 
@@ -51,6 +52,8 @@ namespace APICamaraDeComercio.Repositories
         {
             VEPDTO? response = new VEPDTO();
 
+            
+
             try
             {
 
@@ -60,6 +63,7 @@ namespace APICamaraDeComercio.Repositories
                                                                                     { "@Medpag", vep.medioDePago },
                                                                                     { "@Import", vep.importe},
                                                                                     { "@Estado", vep.estado},
+                                                                                    { "@Tipdoc", vep.tipoDocumento!=null?vep.tipoDocumento:""},
                                                                                     { "@Nrodoc", vep.numeroDocumento},
                                                                                     { "@BusinessUnit", vep.businessUnit}
                                                                                });

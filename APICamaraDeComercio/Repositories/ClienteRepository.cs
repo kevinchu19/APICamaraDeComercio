@@ -12,11 +12,16 @@ namespace APICamaraDeComercio.Repositories
         }
 
 
-        public async Task<ClienteDTO?> GetCliente(string numeroDocumento)
+        public async Task<ClienteDTO?> GetCliente(string numeroDocumento, string? tipoDocumento )
         {
+            if (tipoDocumento is null)
+            {
+                tipoDocumento = "";
+            }
             return await ExecuteStoredProcedure<ClienteDTO?>("ALM_GetClienteForAPI",
                                                                            new Dictionary<string, object>{
-                                                                                { "@NumeroDocumento", numeroDocumento }
+                                                                                { "@NumeroDocumento", numeroDocumento },
+                                                                                { "@TipoDocumento", tipoDocumento}
                                                                            });
 
         }

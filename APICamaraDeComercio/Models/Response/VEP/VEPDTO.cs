@@ -24,7 +24,9 @@ namespace APICamaraDeComercio.Models.Response.VEP
         [MaxLength(6)]
         public string? businessUnit { get; set; }
         public string? barCode { get; set; }
+        public string? tipoDocumento { get; set; }
         public string? numeroDocumento { get; set; }
+        public string? tipoDocumentoGenerador { get; set; }
         public string? numeroDocumentoGenerador { get; set; }
         public string? codigoAutorizacionTarjeta { get; set; }
         public string? tipoTarjeta { get; set; }

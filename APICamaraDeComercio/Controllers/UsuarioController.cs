@@ -5,6 +5,7 @@ using APICamaraDeComercio.Models.Response.Usuario;
 using APICamaraDeComercio.Models.Usuario;
 using APICamaraDeComercio.Repositories;
 using APICamaraDeComercio.Services;
+using APICamaraDeComercio.Services.ApiKey;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -102,6 +103,7 @@ namespace APICamaraDeComercio.Controllers
 
 
         [HttpGet]
+        [ApiKey]
         [Route("validate/{usuario}")]
         public async Task<ActionResult<ValidateUsuarioResponse>> ValidateUsuario(string usuario)
         {
@@ -122,6 +124,27 @@ namespace APICamaraDeComercio.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [ApiKey]
+        [Route("password/change/{usuario}")]
+        public async Task<ActionResult<RecoverPasswordResponse>> ChangePasswordApiKey(string usuario,[FromBody] RecoverPasswordDTO payload)
+        {
+            
+            RecoverPasswordDTO response = await Repository.ChangePassword(usuario, payload.newPassword);
+
+            response.newPassword = null;
+
+            if (response.registrosActualizados > 0)
+            {
+                return Ok(new RecoverPasswordResponse(response));
+            }
+            else
+            {
+                return BadRequest(new RecoverPasswordResponse(response));
+            }
+            
+           
+        }
 
     }
 }

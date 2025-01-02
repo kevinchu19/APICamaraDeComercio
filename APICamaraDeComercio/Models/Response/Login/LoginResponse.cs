@@ -12,6 +12,7 @@ namespace APICamaraDeComercio.Models.Response.Login
         public string? businessUnit { get; set; }
         public string? razonSocial { get; set; }
         public string? numeroDocumento { get; set; }
+        public string? tipoDocumento { get; set; }
         [JsonIgnore]
         public bool calculaVencimientos { get; set; }
         [JsonIgnore]

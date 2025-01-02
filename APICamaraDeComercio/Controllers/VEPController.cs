@@ -43,20 +43,21 @@ namespace APICamaraDeComercio.Controllers
             {
                 IEnumerable<Claim> claims = identity.Claims;
                 string? numeroDocumento = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string? tipoDocumento = claims.FirstOrDefault(c => c.Type == "tipoDocumento").Value;
                 string businessUnit = claims.FirstOrDefault(c => c.Type == "businessUnit").Value;
 
                 if (numeroDocumento is null)
                 {
                     numeroDocumento = "";
                 }
-                List<VEPDTO?> VEP = await Repository.GetVEPList(numeroDocumento, fechaDesde, fechaHasta, businessUnit, estado);
+                List<VEPDTO?> VEP = await Repository.GetVEPList(numeroDocumento, fechaDesde, fechaHasta, businessUnit, estado, tipoDocumento);
 
                 if (VEP.Count() > 0)
                 {
                     return Ok(VEP);
                 }
 
-                return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "VEP inexistentes", $"No se encontraron VEP para el numero de documento {numeroDocumento}.", null)));
+                return NotFound(new ComprobanteResponse(new ComprobanteDTO(numeroDocumento, "404", "VEP inexistentes", $"No se encontraron VEP para el documento tipo {tipoDocumento} - número {numeroDocumento}.", null)));
             }
             return Unauthorized();
         }
@@ -72,12 +73,13 @@ namespace APICamaraDeComercio.Controllers
             {
                 IEnumerable<Claim> claims = identity.Claims;
                 string? numeroDocumento = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string? tipoDocumento = claims.FirstOrDefault(c => c.Type == "tipoDocumento").Value;
                 string businessUnit = claims.FirstOrDefault(c => c.Type == "businessUnit").Value;
 
 
-                if (vep.numeroDocumento != numeroDocumento)
+                if (vep.numeroDocumento != numeroDocumento || (vep.tipoDocumento != tipoDocumento && vep.tipoDocumento != "" && vep.tipoDocumento != null))
                 {
-                    return BadRequest(new VEPResponse(new VEPDTO("El numero de documento asignado al VEP no coincide con las credenciales del usuario.")));
+                    return BadRequest(new VEPResponse(new VEPDTO("El tipo y numero de documento asignado al VEP no coincide con las credenciales del usuario.")));
                 }
 
                 if (vep.comprobantes.Count() > 0)
@@ -116,15 +118,16 @@ namespace APICamaraDeComercio.Controllers
             {
                 IEnumerable<Claim> claims = identity.Claims;
                 string? numeroDocumentoToken = claims.FirstOrDefault(c => c.Type == "numeroDocumento").Value;
+                string? tipoDocumentoToken = claims.FirstOrDefault(c => c.Type == "tipoDocumento").Value;
                 VEPDTO? vepRecuperado = await Repository.GetVEP(id);
                 if (vepRecuperado is null)
                 {
                     return BadRequest(new VEPResponse(new VEPDTO("El VEP no existe.")));
                 }
 
-                if (numeroDocumentoToken != vepRecuperado.numeroDocumento)
+                if (numeroDocumentoToken != vepRecuperado.numeroDocumento ||(tipoDocumentoToken!=vepRecuperado.tipoDocumento && tipoDocumentoToken != ""))
                 {
-                    return BadRequest(new VEPResponse(new VEPDTO("El numero de documento del VEP a actualizar no coincide con el de las credenciales del usuario.")));
+                    return BadRequest(new VEPResponse(new VEPDTO("El tipo y/o numero de documento del VEP a actualizar no coincide con el de las credenciales del usuario.")));
                 }
             }
 
